@@ -23,20 +23,20 @@ Route::get('/', function (){
 
 Route::controller(PatientController::class)->group(function(){
     Route::get("/patient", 'view');
-    Route::get("/patientedit",'edit');
-    Route::get("/patientarchive",'archive');
-    Route::get("/patientadd",'add');
+    Route::get("/patient/edit",'edit');
+    Route::get("/patient/archive",'archive');
+    Route::get("/patient/add",'add');
 });
 Route::controller(AfspraakController::class)->group(function(){
     Route::get("/afspraak", 'view');
-    Route::get("/afspraakedit",'edit');
-    Route::get("/afspraakarchive",'archive');
-    Route::get("/afspraakadd",'add');
+    Route::get("/afspraak/edit",'edit');
+    Route::get("/afspraak/archive",'archive');
+    Route::get("/afspraak/add",'add');
 });
 Route::controller(UserController::class)->group(function(){
     Route::get("/user", 'view');
-    Route::get("/useredit",'edit');
-    Route::get("/userarchive",'archive');
-    Route::get("/useradd",'add');
+    Route::get("/user/edit",'edit');
+    Route::get("/user/archive",'archive');
+    Route::get("/user/add",'add');
 });
 
