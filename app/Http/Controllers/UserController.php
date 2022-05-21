@@ -6,16 +6,23 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+    function login(){
+        return view('user.login');
+    }
+
     function useradd(){
-        return view('useradd');
+        return view('user.add');
     }
+
     function useredit(){
-        return view('useredit');
+        return view('user.edit');
     }
+
     function userarchive(){
-        return view('userarchive');
+        return view('user.archive');
     }
+
     function user(){
-        return view('userview');
+        return view('user.view');
     }
 }

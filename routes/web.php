@@ -39,4 +39,3 @@ Route::controller(UserController::class)->group(function(){
     Route::get("/user/archive",'archive');
     Route::get("/user/add",'add');
 });
-
