@@ -6,8 +6,16 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    function login(){
-        return view('login');
+    function login(Request $request){
+        if($request->isMethod('POST')){
+            $email = $request->input('email');
+            $password = $request->input('password');
+
+            return redirect('/dashboard');
+        }
+        else {
+            return view('login');
+        }
     }
 
     function useradd(){
