@@ -1,0 +1,70 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', Arial, Helvetica, sans-serif;
+}
+
+header {
+    box-shadow: 1px 6px 15px -1px rgba(82,82,82,0.52);
+-webkit-box-shadow: 1px 6px 15px -1px rgba(82,82,82,0.52);
+-moz-box-shadow: 1px 6px 15px -1px rgba(82,82,82,0.52);
+}
+
+input {
+    font-family: 'Inter', Arial, Helvetica, sans-serif;
+}
+
+.flex-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.logo-container {
+    align-items: center;
+}
+
+.main-content {
+    margin-top: 6rem;
+    gap: 10rem;
+    padding: 0.5em 15%;
+}
+
+.image-container {
+    background: linear-gradient(90deg, hsla(0, 87%, 60%, 0.6) -10%, hsla(197, 85%, 51%, 0.6) 120%);
+    border-radius: 10px 20px;
+    transform: rotate(-10deg);
+}
+
+.form-container {
+    width: 24em;
+}
+
+.form {
+    gap: 1em;
+}
+
+.form span:last-child {
+    margin-top: 1em;
+    gap: 2em;
+    align-items: center;
+}
+
+.text-input {
+    padding: 0.75em;
+    border: 1px solid black;
+    border-radius: 10px;
+}
+
+.submit-input {
+    border: none;
+    border-radius: 10px;
+    padding: 1em 2.5em;
+}
