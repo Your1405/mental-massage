@@ -18,7 +18,7 @@ use App\Http\Controllers\PatientController;
 
 Route::get("/dashboard", [DashboardController::class, 'dashboard']);
 Route::get('/', function (){
-    return redirect('/dashboard');
+    return redirect('/login');
 });
 
 Route::controller(PatientController::class)->group(function(){
@@ -27,13 +27,16 @@ Route::controller(PatientController::class)->group(function(){
     Route::get("/patient/archive",'archive');
     Route::get("/patient/add",'add');
 });
+
 Route::controller(AfspraakController::class)->group(function(){
     Route::get("/afspraak", 'view');
     Route::get("/afspraak/edit",'edit');
     Route::get("/afspraak/archive",'archive');
     Route::get("/afspraak/add",'add');
 });
+
 Route::controller(UserController::class)->group(function(){
+    Route::get('/login', 'login');
     Route::get("/user", 'view');
     Route::get("/user/edit",'edit');
     Route::get("/user/archive",'archive');
