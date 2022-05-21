@@ -8,5 +8,6 @@
 </head>
 <body>
     <h1>Dashboard :)</h1>
+    <a href="/login">Logout</a>
 </body>
 </html>

@@ -21,13 +21,14 @@
         <div class="form-container">
             <h2>Inloggen</h2>
             <form method="POST" action="/login" class="form flex-column">
+                @csrf
                 <span class="flex-column">
                     <label for="email">Email</label>
-                    <input type="email" name="email" id="email" class="text-input" placeholder="Email addres...">
+                    <input type="email" name="email" id="email" class="text-input" placeholder="Email addres..." required>
                 </span>
                 <span class="flex-column">
                     <label for="password">Wachtwoord</label>
-                    <input type="password" name="password" id="password" class="text-input" placeholder="Wachtwoord...">
+                    <input type="password" name="password" id="password" class="text-input" placeholder="Wachtwoord..." required>
                 </span>
                 <span class="flex-row">
                     <input type="submit" value="Inloggen" class="submit-input">
@@ -36,8 +37,8 @@
             </form>
         </div>
     </main>
-    <footer>
-        <div>
+    <footer class="footer-container">
+        <div class="footer-content-container flex-row">
             <p>Made by: Team EASY!</p>
             <p>&copy; 2022 Mental Massage, All rights reserved</p>
         </div>
