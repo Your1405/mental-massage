@@ -10,7 +10,7 @@
 <body>
     <header class="header-container">
         <div class="logo-container flex-row">
-            <a href="/" class="logo-link"><img src="{{ asset('storage/images/logo-text.png') }}" alt="mental massage logo" width="96" height="96" class="logo"></a>
+            <a href="/" class="logo-link"><img src="{{ asset('storage/images/logo-color.png') }}" alt="mental massage logo" width="96" height="96" class="logo"></a>
             <h1>Mental Massage</h1>
         </div>
     </header>
@@ -22,11 +22,11 @@
             <h2>Inloggen</h2>
             <form method="POST" action="/login" class="form flex-column">
                 @csrf
-                <span class="flex-column">
+                <span class="flex-column gap-medium">
                     <label for="email">Email</label>
                     <input type="email" name="email" id="email" class="text-input" placeholder="Email addres..." required>
                 </span>
-                <span class="flex-column">
+                <span class="flex-column gap-medium">
                     <label for="password">Wachtwoord</label>
                     <input type="password" name="password" id="password" class="text-input" placeholder="Wachtwoord..." required>
                 </span>
