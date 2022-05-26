@@ -1,9 +1,10 @@
 <?php
 
+use App\Http\Controllers\AfspraakController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\PatientController;
+use App\Http\Controllers\ClientController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,14 +19,14 @@ use App\Http\Controllers\PatientController;
 
 Route::get("/dashboard", [DashboardController::class, 'dashboard']);
 Route::get('/', function (){
-    return redirect('/login');
+    return redirect('/dashboard');
 });
 
-Route::controller(PatientController::class)->group(function(){
-    Route::get("/patient", 'view');
-    Route::get("/patient/edit",'edit');
-    Route::get("/patient/archive",'archive');
-    Route::get("/patient/add",'add');
+Route::controller(ClientController::class)->group(function(){
+    Route::get("/clienten", 'view');
+    Route::get("/clienten/edit",'edit');
+    Route::get("/clienten/archive",'archive');
+    Route::get("/clienten/add",'add');
 });
 
 Route::controller(AfspraakController::class)->group(function(){
