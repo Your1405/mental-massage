@@ -13,9 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('burgelijkestand', function (Blueprint $table) {
-            $table->id('burgelijkeStandID');
-            $table->string('burgelijkeStandBeschrijving', 32);
+        Schema::create('burgelijkestaat', function (Blueprint $table) {
+            $table->id('burgelijkeStaat');
+            $table->string('burgelijkeStaatBeschrijving', 32);
         });
     }
 
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('burgelijkestand');
+        Schema::dropIfExists('burgelijkestaat');
     }
 };
