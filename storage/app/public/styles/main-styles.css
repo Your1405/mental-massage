@@ -14,6 +14,16 @@ header {
     white-space: nowrap;
 }
 
+.dashboard-header {
+    box-shadow: none;
+    margin-bottom: 0;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    background-color: white;
+}
+
 input {
     font-family: 'Inter', Arial, Helvetica, sans-serif;
 }
@@ -32,21 +42,58 @@ input {
     gap: 0.25em;
 }
 
+.gap-large {
+    gap: 1em;
+}
+
+.active {
+    background-color: #F26B6B;
+}
+
+.active a{
+    color: #0D0D0D !important;
+}
+
 .action-link:visited {
     color: #0000EE;
 }
 
 .grid-container {
+    display: grid;
     grid-template-columns: 20% 80%;
-    grid-template-rows: 100%;
+    grid-template-rows: 100vh;
+    margin-top: 5rem;
 }
 
 .dashboard-navigation-container {
-    
+    grid-column-start: 1;
+    grid-column-end: 1;
+    position: fixed;
+    padding: 0;
+}
+
+.nav-list {
+    list-style: none;
+    padding: 0;
+}
+
+.nav-list a {
+    color: #333;
+    text-decoration: none;
+    align-items: center;
+    gap: 0.5em;
+}
+
+.nav-item {
+    padding: 0.5em 1em;
+    width: 100%;
+    margin: 0;
 }
 
 .dashboard-content-container {
-
+    grid-column-start: 2;
+    grid-column-end: 2;
+    background-color: #EEE;
 }
 
 .logo-container {

@@ -8,14 +8,14 @@
     <title>Mental Massage | Dashboard</title>
 </head>
 <body>
-    <header class="header-container">
+    <header class="header-container dashboard-header">
         <div class="logo-container flex-row">
-            <a href="/" class="logo-link"><img src="{{ asset('storage/images/logo-color.png') }}" alt="mental massage logo" width="96" height="96" class="logo"></a>
+            <a href="/" class="logo-link"><img src="{{ asset('storage/images/logo-color.png') }}" alt="mental massage logo" width="72" height="72" class="logo"></a>
             <h1>Mental Massage</h1>
-            <div class="flex-row logout-container">
-                <img src="{{ asset('storage/images/icons/logout.svg') }}">
-                <a href="/login">Logout</a>
-            </div>
+            <a href="/login" class="logout-container flex-row">
+                <img src="{{ asset('storage/images/icons/logout.svg') }}" width="24" height="24">
+                Logout
+            </a>
         </div>
     </header>
     <div class="grid-container">
