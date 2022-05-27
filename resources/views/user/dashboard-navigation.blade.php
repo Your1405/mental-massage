@@ -1,22 +1,28 @@
 <nav class="dashboard-navigation-container">
-    <ul>
-        <li class="nav-item">
-            <div>
-                <img src="{{ asset('storage/images/icons/person.svg') }}">
-                <a href="/clienten/add">Registreer Client</a>
-            </div>
+    <ul class="nav-list flex-column gap-large">
+        <li class="nav-item {{ ( Request::is('dashboard')) ? 'active' : '' }}">
+            <a href="/dashboard" class="flex-row"> 
+                <img src="{{ asset('storage/images/icons/home.svg') }}" width="24" height="24">
+                Dashboard
+            </a>
         </li>
-        <li class="nav-item">
-            <div>
-                <img src="{{ asset('storage/images/icons/people.svg') }}">
-                <a href="/clienten">Overzicht Clienten</a>
-            </div>
+        <li class="nav-item {{ ( Request::is('clienten/add')) ? 'active' : '' }}">
+            <a href="/clienten/add" class="flex-row"> 
+                <img src="{{ asset('storage/images/icons/person.svg') }}" width="24" height="24">
+                Registreer Client
+            </a>
         </li>
-        <li class="nav-item">
-            <div>
-                <img src="{{ asset('storage/images/icons/event.svg') }}">
-                <a href="/afspraak">Afspraken</a>
-            </div>
+        <li class="nav-item {{ ( Request::is('clienten')) ? 'active' : '' }}">
+            <a href="/clienten" class="flex-row">
+                <img src="{{ asset('storage/images/icons/people.svg') }}" width="24" height="24">
+                Overzicht Clienten
+            </a>
+        </li>
+        <li class="nav-item {{ ( Request::is('afspraak')) ? 'active' : '' }}">
+            <a href="/afspraak" class="flex-row">
+            <img src="{{ asset('storage/images/icons/event.svg') }}" width="24" height="24">
+                Afspraken
+            </a>
         </li>
     </ul>
 </nav>
