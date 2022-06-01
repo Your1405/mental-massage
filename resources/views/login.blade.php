@@ -35,6 +35,11 @@
                     <a href="#" class="action-link">Wachtwoord vergeten</a>
                 </span>
             </form>
+            @if($loginError == 'password')
+                <p>Password wrong</p>
+            @elseif($loginError == 'email')
+                <p>email wrong</p>
+            @endif
         </div>
     </main>
     <footer class="footer-container">
