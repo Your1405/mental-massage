@@ -15,16 +15,19 @@ return new class extends Migration
     public function up()
     {
         Schema::create('afspraken', function (Blueprint $table) {
-            $table->id('clientID');
+            $table->bigInteger('clientId');
             $table->date('afspraakDatum');
-            $table->bigInteger('userID');
+            $table->bigInteger('userId');
             $table->date('afspraakBegintijd');
             $table->date('afspraakEindtijd');
             $table->string('afspraakOmschrijving', 50);
-            
+
+            $table->primary(['clientId', 'afspraakDatum']);
+            $table->foreign('clientId')->references('clientId')->on('clients');
+            $table->foreign('userId')->references('userId')->on('medewerker');
         });
 
-        DB::unprepared('ALTER TABLE `afspraken` DROP PRIMARY KEY, ADD PRIMARY KEY (  `clientID` ,  `afspraakDatum` )');
+        // DB::unprepared('ALTER TABLE `afspraken` DROP PRIMARY KEY, ADD PRIMARY KEY (  `clientID` ,  `afspraakDatum` )');
     }
 
     /**

@@ -15,10 +15,12 @@ return new class extends Migration
     {
         Schema::create('documenten', function (Blueprint $table) {
             $table->id('documentID');
-            $table->bigInteger('clientID');
+            $table->bigInteger('clientId');
             $table->string('documentTitel', 32);
             $table->string('documentOmschrijving', 32);
             $table->string('documentURL', 32);
+
+            $table->foreign('clientId')->references('clientId')->on('clients');
         });
     }
 

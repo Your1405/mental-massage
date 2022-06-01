@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('gezinsleden', function (Blueprint $table) {
-            $table->id('gezinsLidID');
+            $table->id('gezinsLidId');
             $table->string('gezinsLidBeschrijving', 32);
         });
     }

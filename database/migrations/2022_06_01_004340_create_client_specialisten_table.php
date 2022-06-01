@@ -16,6 +16,10 @@ return new class extends Migration
         Schema::create('client_specialisten', function (Blueprint $table) {
             $table->bigInteger('clientId');
             $table->bigInteger('userId');
+
+            $table->primary(['clientId', 'userId']);
+            $table->foreign('clientId')->references('clientId')->on('clients');
+            $table->foreign('userId')->references('userId')->on('medewerker');
         });
     }
 

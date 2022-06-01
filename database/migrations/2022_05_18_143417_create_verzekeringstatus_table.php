@@ -14,10 +14,12 @@ return new class extends Migration
     public function up()
     {
         Schema::create('verzekeringstatus', function (Blueprint $table) {
-            $table->id('clientID');
+            $table->id('clientId');
             $table->string('clientVerzekeringsStatus', 32);
             $table->string('clientVerzekeringsNummer', 32);
             $table->string('clientVerzekeringsType', 32);
+
+            $table->foreign('clientId')->references('clientId')->on('clients');
         });
     }
 

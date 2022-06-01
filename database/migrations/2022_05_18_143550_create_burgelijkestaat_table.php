@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('burgelijkestaat', function (Blueprint $table) {
-            $table->id('burgelijkeStaat');
+            $table->id('burgelijkeStaatId');
             $table->string('burgelijkeStaatBeschrijving', 32);
         });
     }

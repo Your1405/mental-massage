@@ -15,8 +15,11 @@ return new class extends Migration
     {
         Schema::create('medewerker', function (Blueprint $table) {
             $table->id('userId');
+            $table->bigInteger('userAccountTypeId');
             $table->string('userEmail', 32);
             $table->string('userPassword', 32);
+
+            $table->foreign('userAccountTypeId')->references('userAccountTypeId')->on('useraccounttype');
         });
     }
 

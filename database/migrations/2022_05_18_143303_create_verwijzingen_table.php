@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('verwijzingen', function (Blueprint $table) {
-            $table->id('verwijzingID');
+            $table->id('verwijzingId');
             $table->string('verwijzingNaam', 32);
         });
     }

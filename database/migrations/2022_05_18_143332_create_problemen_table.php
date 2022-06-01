@@ -14,9 +14,11 @@ return new class extends Migration
     public function up()
     {
         Schema::create('problemen', function (Blueprint $table) {
-            $table->id('probleemID');
-            $table->bigInteger('userID');
+            $table->id('probleemId');
+            $table->bigInteger('clientId');
             $table->string('probleemBeschrijving', 32);
+
+            $table->foreign('clientId')->references('clientId')->on('clients');
         });
     }
 

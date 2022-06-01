@@ -21,6 +21,8 @@ return new class extends Migration
             $table->string('userGeslacht', 32);
             $table->binary('userProfielfoto', 32);
             $table->string('userSpecialty', 32);
+
+            $table->foreign('userId')->references('userId')->on('medewerker');
         });
     }
 
