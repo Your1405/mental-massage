@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 
 return new class extends Migration
 {
@@ -21,6 +22,18 @@ return new class extends Migration
 
             $table->foreign('userAccountTypeId')->references('userAccountTypeId')->on('useraccounttype');
         });
+
+        DB::table('medewerker')->insert([
+            'userAccountTypeId' => 2,
+            'userEmail' => 'karijopawiro@admin.sr',
+            'userPassword' => 'password12'
+        ]);
+
+        DB::table('medewerker')->insert([
+            'userAccountTypeId' => 1,
+            'userEmail' => 'elle@user.sr',
+            'userPassword' => 'password123'
+        ]);
     }
 
     /**
