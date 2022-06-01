@@ -6,7 +6,12 @@ use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
-    function dashboard(){
-        return view('dashboard');
+    function dashboard(Request $request){
+        $userType = $request->session()->get('userType');
+        if ($userType == 'admin'){
+            return view('dashboard', ['userType'=>'admin']);
+        } else if ($userType == 'specialist'){
+            return view('dashboard', ['userType'=>'specialist']);
+        }
     }
 }
