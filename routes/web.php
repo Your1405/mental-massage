@@ -39,8 +39,10 @@ Route::controller(AfspraakController::class)->group(function(){
 Route::controller(UserController::class)->group(function(){
     Route::get('/login', 'login');
     Route::post('/login', 'login');
+    Route::get('/logout', 'logout');
     Route::get("/user", 'view');
     Route::get("/user/edit",'edit');
     Route::get("/user/archive",'archive');
     Route::get("/user/add",'add');
+    Route::post('/user/add', 'add');
 });
