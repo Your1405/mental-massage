@@ -11,8 +11,8 @@
     <div>
         <h1>Overzicht gebruikers</h1>
         <a href="/dashboard">Terug naar dashboard</a>
-        <table style='border: solid 1px black; border-collapse: collapse'>
-            <tr style="border: solid 1px black;">
+        <table style='border: solid 1px black; border-collapse: collapse; padding: 0.5em;'>
+            <tr style="border: solid 1px black; padding: 0.5em;">
                 <th>Email</th>
                 <th>Type Gebruiker</th>
             </tr>
