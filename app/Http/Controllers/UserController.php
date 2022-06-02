@@ -94,7 +94,6 @@ class UserController extends Controller
             ->get();
 
             $userInfoArray = json_decode(json_encode($userInfo->toArray()), true);
-            var_dump($userInfoArray);
             return view('user.overzicht', [
                 'userInfo'=>$userInfoArray,
                 'userType'=>'admin'
