@@ -15,14 +15,14 @@
         <form class="flex-column user-registration-form gap-medium" action="/user/add" method="POST">
             @csrf
             <label for="userEmail">Email Adress</label>
-            <input type="email" id="userEmail" name="userEmail" placeholder="Email Adress...">
+            <input type="email" id="userEmail" name="userEmail" placeholder="Email Adress..." required>
 
             <label for="userPassword">Wachtwoord:</label>
-            <input type="password" id="userPassword" name="userPassword" placeholder="Wachtwoord">
+            <input type="password" id="userPassword" name="userPassword" placeholder="Wachtwoord" required>
             {{-- <input type="button" value="Generate Password"> --}}
 
             <label for="userAccountType"> Account Type: </label>
-            <select name="userAccountType" id="userAccountType">
+            <select name="userAccountType" id="userAccountType" required>
                 <option value="1">Specialist</option>
                 <option value="2">Admin</option>
             </select>

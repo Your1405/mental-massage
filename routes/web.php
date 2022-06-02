@@ -19,7 +19,7 @@ use App\Http\Controllers\ClientController;
 
 Route::get("/dashboard", [DashboardController::class, 'dashboard']);
 Route::get('/', function (){
-    return redirect('/dashboard');
+    return redirect('/login');
 });
 
 Route::controller(ClientController::class)->group(function(){
