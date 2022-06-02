@@ -19,8 +19,8 @@
         </div>
     </header>
     <div class="grid-container">
-        @include('user.dashboard-navigation')
-        <main  class="dashboard-content-container">
+        @include('dashboard-navigation')
+        <main class="dashboard-content-container">
             <h1>Dashboard :)</h1>
             @if ($userType == 'admin')
                 <h2>I am admin :)</h2>
