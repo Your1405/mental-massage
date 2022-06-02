@@ -14,14 +14,14 @@ class UserController extends Controller
             $email = $request->input('email');
             $password = $request->input('password');
 
-            $userAccount = DB::table('medewerker')->where('userEmail', '=', $email)->get()->toArray();
-            var_dump($userAccount);
-            if($email == $userAccount[0]){
-                if ($password == $userAccount['userPassword']){
-                    if($userAccount['userTypeId'] == 1){
+            $userAccount = DB::table('medewerker')->where('userEmail', '=', $email)->get();
+            $userAccountArray = json_decode(json_encode($userAccount->toArray()), true);
+            if($email == $userAccountArray[0]['userEmail']){
+                if ($password == $userAccountArray[0]['userPassword']){
+                    if($userAccountArray[0]['userAccountTypeId'] == 2){
                         session(['userType'=>'admin']);
                         return redirect('/dashboard');
-                    } else if ($userAccount['userTypeId'] == 2){
+                    } else if ($userAccountArray[0]['userAccountTypeId'] == 1){
                         session(['userType'=>'specialist']);
                         return redirect('/dashboard');
                     }
@@ -37,11 +37,12 @@ class UserController extends Controller
         }
     }
 
-    function useradd(Request $request){
+    function add(Request $request){
         if($request->isMethod('get')){
             return view('user.add', [
                 'userId'=> null,
-                'insertStatus'=> null
+                'insertStatus'=> null,
+                'email'=>null
             ]);
         } else if ($request->isMethod('post')){
             $userInfo = $request->all();
@@ -51,7 +52,7 @@ class UserController extends Controller
             $acctype = $userInfo['userAccountType'];
 
             $existingUser = DB::table('medewerker')->where('userEmail', '=', $email)->get();
-           if($existingUser->count() == 0){
+            if($existingUser->count() == 0){
                 DB::table('medewerker')->insert([
                     'userAccountTypeId' => $acctype,
                     'userEmail' => $email,
@@ -61,12 +62,14 @@ class UserController extends Controller
                 $userId = DB::table('medewerker')->select('userId')->where('userEmail', '=', $email)->get();
                 return view('user.add', [
                     'userId'=>$userId,
-                    'insertStatus'=>'success'
+                    'insertStatus'=>'success',
+                    'email'=>$email
                 ]);
-           } else {
+            } else {
             return view('user.add', [
                 'userId'=>null,
-                'insertStatus'=>'userExists'
+                'insertStatus'=>'userExists',
+                'email'=>$email
             ]);
            }
         }
@@ -85,8 +88,7 @@ class UserController extends Controller
     }
 
     function logout(Request $request){
-        
         $request->session()->flush();
-        return view ('login');
+        return redirect('/login');
     }
 }
