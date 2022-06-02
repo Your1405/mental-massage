@@ -8,11 +8,18 @@
     <title>Mental Massage | Gebruiker Toevoegen</title>
 </head>
 <body>
+<div class="grid-container">
+        @include('dashboard-navigation')
+        <main class="dashboard-content-container">
+            <h1>Dashboard :)</h1>
+                
+    
+
     <h1>Gebruiker toevoegen</h1>
     <a href="/dashboard">Terug naar dashboard</a>
+   
     <!-- This is Login Gegevens --> 
-    <div> 
-        <form class="flex-column user-registration-form gap-medium" action="/user/add" method="POST">
+           <form class="flex-column user-registration-form gap-medium" action="/user/add" method="POST">
             @csrf
             <label for="userEmail">Email Adress</label>
             <input type="email" id="userEmail" name="userEmail" placeholder="Email Adress..." required>
@@ -34,6 +41,7 @@
         @elseif($insertStatus == 'userExists')
             <p>User met email: {{ $email }} bestaat al!</p>
         @endif
+        </main>
     </div>
 </body>
 </html>
