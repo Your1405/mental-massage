@@ -42,7 +42,8 @@ class UserController extends Controller
             return view('user.add', [
                 'userId'=> null,
                 'insertStatus'=> null,
-                'email'=>null
+                'email'=>null,
+                'userType'=>'admin'
             ]);
         } else if ($request->isMethod('post')){
             $userInfo = $request->all();
@@ -63,13 +64,15 @@ class UserController extends Controller
                 return view('user.add', [
                     'userId'=>$userId,
                     'insertStatus'=>'success',
-                    'email'=>$email
+                    'email'=>$email,
+                    'userType'=>'admin'
                 ]);
             } else {
             return view('user.add', [
                 'userId'=>null,
                 'insertStatus'=>'userExists',
-                'email'=>$email
+                'email'=>$email,
+                'userType'=>'admin'
             ]);
            }
         }
@@ -83,7 +86,23 @@ class UserController extends Controller
         return view('user.archive');
     }
 
-    function user(){
+    function overzicht(Request $request){
+        if($request->isMethod('get')){
+            $userInfo = DB::table('medewerker')
+            ->join('useraccounttype', 'medewerker.userAccountTypeId', '=', 'useraccounttype.userAccountTypeId')
+            ->select(['medewerker.userId', 'useraccounttype.userAccountDescription', 'medewerker.userEmail'])
+            ->get();
+
+            $userInfoArray = json_decode(json_encode($userInfo->toArray()), true);
+            var_dump($userInfoArray);
+            return view('user.overzicht', [
+                'userInfo'=>$userInfoArray,
+                'userType'=>'admin'
+            ]);
+        }
+    }
+
+    function view(){
         return view('user.view');
     }
 
