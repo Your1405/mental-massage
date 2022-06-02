@@ -40,7 +40,7 @@ Route::controller(UserController::class)->group(function(){
     Route::get('/login', 'login');
     Route::post('/login', 'login');
     Route::get('/logout', 'logout');
-    Route::get('/user/{id}', 'view');
+    Route::get('/user/view/{id}', 'view');
     Route::get('/users', 'overzicht');
     Route::get('/user/edit','edit');
     Route::get('/user/archive','archive');
