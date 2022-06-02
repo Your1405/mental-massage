@@ -156,3 +156,8 @@ input {
 .logout-container img {
     margin-right: 0.5em;
 }
+
+.user-registration-form {
+    width: 30%;
+    padding-left: 1em;
+}
