@@ -33,7 +33,7 @@
             </a>
         </li>
         <li class="nav-item {{ ( Request::is('user.add')) ? 'active' : '' }}">
-            <a href="/user" class="flex-row"> 
+            <a href="/users" class="flex-row"> 
                 <img src="{{ asset('storage/images/icons/people.svg') }}" width="24" height="24">
                 Overzicht Gebruikers
             </a>
