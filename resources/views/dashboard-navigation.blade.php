@@ -24,5 +24,20 @@
                 Afspraken
             </a>
         </li>
+        @if($userType == 'admin')
+        <p>Admin Tools</p>
+        <li class="nav-item {{ ( Request::is('user.add')) ? 'active' : '' }}">
+            <a href="/user/add" class="flex-row"> 
+                <img src="{{ asset('storage/images/icons/person.svg') }}" width="24" height="24">
+                Gebruiker Toevoegen
+            </a>
+        </li>
+        <li class="nav-item {{ ( Request::is('user.add')) ? 'active' : '' }}">
+            <a href="/user" class="flex-row"> 
+                <img src="{{ asset('storage/images/icons/people.svg') }}" width="24" height="24">
+                Overzicht Gebruikers
+            </a>
+        </li>
+        @endif
     </ul>
 </nav>
