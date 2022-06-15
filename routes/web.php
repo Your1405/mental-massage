@@ -27,6 +27,7 @@ Route::controller(ClientController::class)->group(function(){
     Route::get("/clienten/edit",'edit');
     Route::get("/clienten/archive",'archive');
     Route::get("/clienten/add",'add');
+    Route::post("/clienten/add",'add');
 });
 
 Route::controller(AfspraakController::class)->group(function(){
