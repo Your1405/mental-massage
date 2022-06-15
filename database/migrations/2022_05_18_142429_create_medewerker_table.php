@@ -19,7 +19,7 @@ return new class extends Migration
             $table->id('userId');
             $table->bigInteger('userAccountTypeId');
             $table->string('userEmail', 32);
-            $table->string('userPassword', 32);
+            $table->string('userPassword', 64);
 
             $table->foreign('userAccountTypeId')->references('userAccountTypeId')->on('useraccounttype');
         });
