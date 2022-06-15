@@ -18,12 +18,10 @@
             </a>
         </div>
     </header>
-    <div class="grid-container">
+    <div class="dashboard-container">
         @include('dashboard-navigation')
         <main class="dashboard-content-container">
             <h1>Gebruiker toevoegen</h1>
-            <a href="/dashboard">Terug naar dashboard</a>
-        
             <!-- This is Login Gegevens --> 
             <form class="flex-column user-registration-form gap-medium" action="/user/add" method="POST">
                 @csrf

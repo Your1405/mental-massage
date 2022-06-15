@@ -48,6 +48,8 @@ input {
 
 .active {
     background-color: #F26B6B;
+    border-radius: 0 1em 1em 0;
+    padding-right: 1em; 
 }
 
 .active a{
@@ -58,18 +60,26 @@ input {
     color: #0000EE;
 }
 
-.grid-container {
-    display: grid;
-    grid-template-columns: 20% 80%;
-    grid-template-rows: 100vh;
-    margin-top: 5rem;
+.dashboard-container {
+    position: relative;
+    top: 5rem;
 }
 
 .dashboard-navigation-container {
-    grid-column-start: 1;
-    grid-column-end: 1;
     position: fixed;
+    top: 5rem;
+    width: 17.5%;
     padding: 0;
+}
+
+.dashboard-content-container {
+    background-color: #EEE;
+    position: absolute;
+    left: 17.5%;
+    width: calc(82.5% - 2em);
+    padding: 0 1em;
+    min-height: 100vh;
+    z-index: -1;
 }
 
 .nav-list {
@@ -84,16 +94,18 @@ input {
     gap: 0.5em;
 }
 
-.nav-item {
-    padding: 0.5em 1em;
-    width: 100%;
+.nav-list > p {
+    position: relative;
+    left: 1rem;
+    font-size: 1.25rem;
+    font-weight: 700;
     margin: 0;
 }
 
-.dashboard-content-container {
-    grid-column-start: 2;
-    grid-column-end: 2;
-    background-color: #EEE;
+.nav-item {
+    padding: 0.5em 0.5em;
+    /* width: 100%; */
+    margin: 0;
 }
 
 .logo-container {
@@ -105,6 +117,8 @@ input {
     margin-top: 5rem;
     gap: 10rem;
     padding: 0.5em 15%;
+    align-items: center;
+    justify-content: center;
 }
 
 .form-container {

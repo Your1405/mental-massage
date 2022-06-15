@@ -32,7 +32,7 @@
                 Gebruiker Toevoegen
             </a>
         </li>
-        <li class="nav-item {{ ( Request::is('user/view')) ? 'active' : '' }}">
+        <li class="nav-item {{ ( Request::is('users')) ? 'active' : '' }}">
             <a href="/users" class="flex-row"> 
                 <img src="{{ asset('storage/images/icons/people.svg') }}" width="24" height="24">
                 Overzicht Gebruikers

@@ -18,7 +18,7 @@
             </a>
         </div>
     </header>
-    <div class="grid-container">
+    <div class="dashboard-container">
         @include('dashboard-navigation')
         <main class="dashboard-content-container">
             <h1>Dashboard :)</h1>
