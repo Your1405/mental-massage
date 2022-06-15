@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Medewerker;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\Translation\Provider\NullProvider;
+use Illuminate\Support\Facades\Hash; 
 
 class UserController extends Controller
 {
@@ -15,21 +16,23 @@ class UserController extends Controller
             $password = $request->input('password');
 
             $userAccount = DB::table('medewerker')->where('userEmail', '=', $email)->get();
+
             $userAccountArray = json_decode(json_encode($userAccount->toArray()), true);
             if($email == $userAccountArray[0]['userEmail']){
-                if ($password == $userAccountArray[0]['userPassword']){
+                if (Hash::check($password, $userAccountArray[0]['userPassword'])){                
                     if($userAccountArray[0]['userAccountTypeId'] == 2){
                         session(['userType'=>'admin']);
                         return redirect('/dashboard');
                     } else if ($userAccountArray[0]['userAccountTypeId'] == 1){
                         session(['userType'=>'specialist']);
                         return redirect('/dashboard');
-                    }
+                    
                 } else {
                     return view('login', ['loginError'=>'password']);
                 }
             } else {
                 return view('login', ['loginError'=>'email']);
+            }
             }
         }
         else if($request->isMethod('get')){
@@ -57,7 +60,7 @@ class UserController extends Controller
                 DB::table('medewerker')->insert([
                     'userAccountTypeId' => $acctype,
                     'userEmail' => $email,
-                    'userPassword' => $password,
+                    'userPassword' => Hash::make($password),
                 ]);
 
                 $userId = DB::table('medewerker')->select('userId')->where('userEmail', '=', $email)->get();
