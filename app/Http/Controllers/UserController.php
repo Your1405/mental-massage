@@ -11,28 +11,35 @@ use Illuminate\Support\Facades\Hash;
 class UserController extends Controller
 {
     function login(Request $request){
-        if($request->isMethod('post')){
+        //check for http method used
+        if($request->isMethod('POST')){
+            //get user input values
             $email = $request->input('email');
             $password = $request->input('password');
 
+            //check if user account exists
             $userAccount = DB::table('medewerker')->where('userEmail', '=', $email)->get();
 
+            //convert to associative array
             $userAccountArray = json_decode(json_encode($userAccount->toArray()), true);
-            if($email == $userAccountArray[0]['userEmail']){
-                if (Hash::check($password, $userAccountArray[0]['userPassword'])){                
-                    if($userAccountArray[0]['userAccountTypeId'] == 2){
-                        session(['userType'=>'admin']);
-                        return redirect('/dashboard');
-                    } else if ($userAccountArray[0]['userAccountTypeId'] == 1){
-                        session(['userType'=>'specialist']);
-                        return redirect('/dashboard');
-                    
-                } else {
-                    return view('login', ['loginError'=>'password']);
-                }
+            if(sizeOf($userAccountArray) == 0){
+                return view('login', ['loginError'=>'userNotExists']);
             } else {
-                return view('login', ['loginError'=>'email']);
-            }
+                if($email == $userAccountArray[0]['userEmail']){
+                    if (Hash::check($password, $userAccountArray[0]['userPassword'])){                
+                        if($userAccountArray[0]['userAccountTypeId'] == 2){
+                            session(['userType'=>'admin']);
+                            return redirect('/dashboard');
+                        } else if ($userAccountArray[0]['userAccountTypeId'] == 1){
+                            session(['userType'=>'specialist']);
+                            return redirect('/dashboard');
+                        } else {
+                            return view('login', ['loginError'=>'email']);
+                        }
+                    } else {
+                        return view('login', ['loginError'=>'password']);
+                    }
+                }
             }
         }
         else if($request->isMethod('get')){

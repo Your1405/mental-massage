@@ -45,5 +45,9 @@ Route::controller(UserController::class)->group(function(){
     Route::get('/user/edit','edit');
     Route::get('/user/archive','archive');
     Route::get('/user/add','add');
+
+    Route::get('/user/edit/{id}', 'edit');
+    Route::get('/user/profile', 'view');
+
     Route::post('/user/add', 'add');
 });
