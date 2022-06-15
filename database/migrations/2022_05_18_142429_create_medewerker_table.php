@@ -4,6 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 return new class extends Migration
 {
@@ -26,13 +27,13 @@ return new class extends Migration
         DB::table('medewerker')->insert([
             'userAccountTypeId' => 2,
             'userEmail' => 'karijopawiro@admin.sr',
-            'userPassword' => 'password12'
+            'userPassword' => Hash::make('password12')
         ]);
 
         DB::table('medewerker')->insert([
             'userAccountTypeId' => 1,
             'userEmail' => 'elle@user.sr',
-            'userPassword' => 'password123'
+            'userPassword' => Hash::make('password123')
         ]);
     }
 
