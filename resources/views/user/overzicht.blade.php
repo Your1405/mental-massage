@@ -22,15 +22,35 @@
         @include('dashboard-navigation')
         <div class="dashboard-content-container">
             <h1>Overzicht gebruikers</h1>
-            <table style='border: solid 1px black; border-collapse: collapse; padding: 0.5em;'>
+            <table style='border: solid 1px black; border-collapse: collapse; padding: 0.5em; text-align: center'>
                 <tr style="border: solid 1px black; padding: 0.5em;">
+                    <th>Profiel Foto</th>
                     <th>Email</th>
+                    <th>Voornaam</th>
+                    <th>Naam</th>
+                    <th>Geboorte Datum</th>
+                    <th>Geslacht</th>
+                    <th>Specialiteit</th>
                     <th>Type Gebruiker</th>
+                    <th>Bewerk Gebruiker</th>
+                    <th>Verwijder Gebruiker</th>
                 </tr>
                 @foreach($userInfo as $user)
                 <tr>
+                    @php
+                        $userPfp = $user['userProfielfoto'];
+                        $userId = $user['userId'];
+                    @endphp
+                    <td><img src="{{ asset("storage/userImages/$userPfp") }}" width="48" height="48" ></td>
                     <td>{{ $user['userEmail'] }}</td>
+                    <td>{{ $user['userVoornaam'] }}</td>
+                    <td>{{ $user['userNaam'] }}</td>
+                    <td>{{ $user['userGeboorteDatum'] }}</td>
+                    <td>{{ $user['userGeslacht'] }}</td>
+                    <td>{{ $user['userSpecialty'] }}</td>
                     <td>{{ $user['userAccountDescription'] }}</td>
+                    <td><a href="/user/edit/{{$userId}}"><img src="{{ asset('storage/images/pencil.png') }}" width="24" height="24"></a></td>
+                    <td><a href="/user/delete/{{$userId}}"><img src="{{ asset('storage/images/delete.png') }}" width="24" height="24"></a></td>
                 </tr>
                 @endforeach
             </table>

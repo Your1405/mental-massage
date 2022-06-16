@@ -36,9 +36,11 @@
                 </span>
             </form>
             @if($loginError == 'password')
-                <p>Password wrong</p>
+                <p>Password is verkeerd</p>
             @elseif($loginError == 'email')
-                <p>email wrong</p>
+                <p>Email is verkeerd</p>
+            @elseif($loginError == 'userNotExists')
+                <p>Gebruiker bestaat niet
             @endif
         </div>
     </main>

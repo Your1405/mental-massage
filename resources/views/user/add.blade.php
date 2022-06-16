@@ -41,7 +41,8 @@
                 <input type="submit" value="Voeg nieuwe medewerker toe">
             </form>
             @if($insertStatus == 'success')
-                <p>User met userid: {{ $userId }} successvol toegevoegd</p>
+                <p>User met email: {{ $email }} successvol toegevoegd</p>
+                <a href="/user/edit/{{$userId}}">Voer gebruiker gegevens in</a>
             @elseif($insertStatus == 'userExists')
                 <p>User met email: {{ $email }} bestaat al!</p>
             @endif
