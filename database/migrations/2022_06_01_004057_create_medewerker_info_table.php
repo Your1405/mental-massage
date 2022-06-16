@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 
 return new class extends Migration
 {
@@ -14,16 +15,24 @@ return new class extends Migration
     public function up()
     {
         Schema::create('medewerker_info', function (Blueprint $table) {
-            $table->id('userId');
-            $table->string('userNaam', 32);
-            $table->string('userVoornaam', 32);
-            $table->date('userGeboortedatum');
-            $table->string('userGeslacht', 32);
-            $table->binary('userProfielfoto', 32);
-            $table->string('userSpecialty', 32);
+            $table->bigInteger('userId')->primary();
+            $table->string('userNaam', 32)->nullable(true);
+            $table->string('userVoornaam', 32)->nullable(true);
+            $table->date('userGeboortedatum')->nullable(true);
+            $table->string('userGeslacht', 32)->nullable(true);
+            $table->string('userProfielfoto', 32)->default('user.png');
+            $table->string('userSpecialty', 32)->nullable(true);
 
             $table->foreign('userId')->references('userId')->on('medewerker');
         });
+
+        DB::table('medewerker_info')->insert([
+            'userId' => 1
+        ]);
+
+        DB::table('medewerker_info')->insert([
+            'userId' => 2
+        ]);
     }
 
     /**
