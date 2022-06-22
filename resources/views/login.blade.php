@@ -35,12 +35,10 @@
                     <a href="#" class="action-link">Wachtwoord vergeten</a>
                 </span>
             </form>
-            @if($loginError == 'password')
+            @if($loginError == 'wrongPassword')
                 <p>Password is verkeerd</p>
-            @elseif($loginError == 'email')
-                <p>Email is verkeerd</p>
             @elseif($loginError == 'userNotExists')
-                <p>Gebruiker bestaat niet
+                <p>Gebruiker bestaat niet, maak contact met de admin van de webapp voor toegang<p>
             @endif
         </div>
     </main>

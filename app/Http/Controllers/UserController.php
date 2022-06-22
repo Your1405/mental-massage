@@ -3,11 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Medewerker;
 use Illuminate\Support\Facades\DB;
-use Symfony\Component\Translation\Provider\NullProvider;
 use Illuminate\Support\Facades\Hash;
-use PhpParser\Node\Expr\NullsafeMethodCall;
 
 class UserController extends Controller
 {
@@ -23,14 +20,24 @@ class UserController extends Controller
 
             //convert to associative array
             $userAccountArray = json_decode(json_encode($userAccount->toArray()), true);
+            //if size == 0, the database row for the specified email is empty, which means the user doesn't exist
             if(sizeOf($userAccountArray) == 0){
+                //return login view, where a variable for errors is sent with the view
                 return view('login', ['loginError'=>'userNotExists']);
             } else {
                 $userId = $userAccountArray[0]['userId'];
                 if($email == $userAccountArray[0]['userEmail']){
+                    /*
+                        Hash::check is a function which compares the user's password in the database
+                        with the input password
+                    */
                     if (Hash::check($password, $userAccountArray[0]['userPassword'])){                
                         if($userAccountArray[0]['userAccountTypeId'] == 2){
-                            session([
+                            /*
+                                session() sets a session storage variable, which is important data that is 
+                                stored on the user's pc. Basically a cookie.
+                            */
+                             session([
                                 'userType'=>'admin',
                                 'userId'=>$userId
                             ]);
@@ -41,20 +48,20 @@ class UserController extends Controller
                                 'userId'=>$userId
                             ]);
                             return redirect('/dashboard');
-                        } else {
-                            return view('login', ['loginError'=>'email']);
                         }
                     } else {
-                        return view('login', ['loginError'=>'password']);
+                        return view('login', ['loginError'=>'wrongPassword']);
                     }
                 }
             }
         }
+        // if you request the page without submitting anything, you will get a view back with no errors.
         else if($request->isMethod('get')){
             return view('login', ['loginError'=>null]);
         }
     }
 
+    // This function adds users
     function add(Request $request){
         if($request->isMethod('get')){
             return view('user.add', [
