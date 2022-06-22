@@ -92,8 +92,59 @@ class ClientController extends Controller
     function edit (){
         return view('patientedit');
     }
-    function view (){
+    function view (Request $request){
+
+    if($request->isMethod('get')){
+        $clientInfo = DB::table('clients')
+        ->select([
+            'clients.clientId',
+            'clients.clientVoornaam',
+            'clients.soortZorg',
+            'clients.clientVoornaam',
+            'clients.clientGeboorteDatum',
+            'clients.clientRegistratieDatum',
+            'clients.clientBurgelijkeStaat',
+            'clients.clienttelefoonNummer',
+            'clients.clientHuisTelefoonNummer',
+            'clients.clientEmail',
+            'clients.clientEthniciteit',
+            'clients.clientGeslacht',
+            'clients.clientHuisarts',
+            'clients.clientVerwijzing',
+            'clients.clientOpleiding',
+            'clients.clientBeroep',
+            'clients.clientWerkgever',
+            'clients.clientContactPersoonId',
+            'clients.clientMedicatie',
+            'clients.clientOnderliggendeZiekten',
+            'clients.clientBehandelingStatus',
+            'clients.clientGeboorteDatum',
+            'clients.clientRegistratieDatum',
+            'clients.clientBurgelijkeStaat',
+            'clients.clienttelefoonNummer',
+            'clients.clientHuisTelefoonNummer',
+            'clients.clientEmail',
+            'clients.clientEthniciteit',
+            'clients.clientGeslacht',
+            'clients.clientHuisarts',
+            'clients.clientVerwijzing',
+            'clients.clientOpleiding',
+            'clients.clientBeroep',
+            'clients.clientWerkgever',
+            'clients.clientContactPersoonId',
+            'clients.clientMedicatie',
+            'clients.clientOnderliggendeZiekten',
+            'clients.clientBehandelingStatus',
+
+        ])
+        ->get();
+            $clientInfoArray = json_decode(json_encode($clientInfo->toArray()), true);
+            return view('admin.clienten.overzicht',[
+                'clientInfo' =>$clientInfoArray,
+            ]);
+
+    }    
+
         return view('admin.clienten.patientview');
-        
     }
 }
