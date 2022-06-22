@@ -14,7 +14,8 @@
             <h1>Mental Massage</h1>
             <a href="/logout" class="logout-container flex-row">
                 <img src="{{ asset('storage/images/icons/logout.svg') }}" width="24" height="24">
-                Logout
+                    Logout
+                </img>
             </a>
         </div>
     </header>
