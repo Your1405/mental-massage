@@ -14,6 +14,10 @@ header {
     white-space: nowrap;
 }
 
+.hidden {
+    /* display: none !important; */
+}
+
 .dashboard-header {
     box-shadow: none;
     margin-bottom: 0;
