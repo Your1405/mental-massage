@@ -52,15 +52,22 @@ Route::controller(AfspraakController::class)->group(function(){
 Route::controller(UserController::class)->group(function(){
     Route::get('/login', 'login');
     Route::post('/login', 'login');
+
+    Route::get('/register', 'register');
+    Route::post('/register', 'register');
+
     Route::get('/logout', 'logout');
+
     Route::get('/user/view/{id}', 'view');
+    Route::get('/user/profile', 'profile');
+
     Route::get('/users', 'overzicht');
+
     Route::get('/user/edit','edit');
-    Route::get('/user/archive','archive');
-    Route::get('/user/add','add');
-
     Route::get('/user/edit/{id}', 'edit');
-    Route::get('/user/profile', 'view');
 
+    Route::get('/user/archive','archive');
+
+    Route::get('/user/add','add');
     Route::post('/user/add', 'add');
 });
