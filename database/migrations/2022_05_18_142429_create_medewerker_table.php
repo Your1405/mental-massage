@@ -20,6 +20,7 @@ return new class extends Migration
             $table->bigInteger('userAccountTypeId');
             $table->string('userEmail', 32);
             $table->string('userPassword', 64);
+            $table->boolean('userFirstLogin')->default(0);
 
             $table->foreign('userAccountTypeId')->references('userAccountTypeId')->on('useraccounttype');
         });
@@ -27,7 +28,8 @@ return new class extends Migration
         DB::table('medewerker')->insert([
             'userAccountTypeId' => 2,
             'userEmail' => 'karijopawiro@admin.sr',
-            'userPassword' => Hash::make('password12')
+            'userPassword' => Hash::make('password12'),
+            'userFirstLogin' => 1
         ]);
 
         DB::table('medewerker')->insert([

@@ -27,7 +27,12 @@ return new class extends Migration
         });
 
         DB::table('medewerker_info')->insert([
-            'userId' => 1
+            'userId' => 1,
+            'userNaam' => 'Karijopawiro',
+            'userVoornaam' => 'Youri',
+            'userGeboorteDatum' => '2003-05-14',
+            'userGeslacht' => 1,
+            'userSpecialty' => 'Admin'
         ]);
 
         DB::table('medewerker_info')->insert([
