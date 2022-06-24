@@ -31,24 +31,44 @@ class UserController extends Controller
                         Hash::check is a function which compares the user's password in the database
                         with the input password
                     */
-                    if (Hash::check($password, $userAccountArray[0]['userPassword'])){                
-                        if($userAccountArray[0]['userAccountTypeId'] == 2){
-                            /*
-                                session() sets a session storage variable, which is important data that is 
-                                stored on the user's pc. Basically a cookie.
-                            */
-                             session([
-                                'userType'=>'admin',
-                                'userId'=>$userId
-                            ]);
-                            return redirect('/dashboard');
-                        } else if ($userAccountArray[0]['userAccountTypeId'] == 1){
-                            session([
-                                'userType'=>'specialist',
-                                'userId'=>$userId
-                            ]);
-                            return redirect('/dashboard');
-                        }
+                    if (Hash::check($password, $userAccountArray[0]['userPassword'])){
+                        if($userAccountArray[0]['userFirstLogin'] == 0){
+                            if($userAccountArray[0]['userAccountTypeId'] == 2){
+                                /*
+                                    session() sets a session storage variable, which is important data that is 
+                                    stored on the user's pc. Basically a cookie.
+                                */
+                                 session([
+                                    'userType'=>'admin',
+                                    'userId'=>$userId
+                                ]);
+                                return redirect('/register');
+                            } else if ($userAccountArray[0]['userAccountTypeId'] == 1){
+                                session([
+                                    'userType'=>'specialist',
+                                    'userId'=>$userId
+                                ]);
+                                return redirect('/register');
+                            }
+                        } else {
+                            if($userAccountArray[0]['userAccountTypeId'] == 2){
+                                /*
+                                    session() sets a session storage variable, which is important data that is 
+                                    stored on the user's pc. Basically a cookie.
+                                */
+                                 session([
+                                    'userType'=>'admin',
+                                    'userId'=>$userId
+                                ]);
+                                return redirect('/dashboard');
+                            } else if ($userAccountArray[0]['userAccountTypeId'] == 1){
+                                session([
+                                    'userType'=>'specialist',
+                                    'userId'=>$userId
+                                ]);
+                                return redirect('/dashboard');
+                            }
+                        }             
                     } else {
                         return view('login', ['loginError'=>'wrongPassword']);
                     }
@@ -58,6 +78,18 @@ class UserController extends Controller
         // if you request the page without submitting anything, you will get a view back with no errors.
         else if($request->isMethod('get')){
             return view('login', ['loginError'=>null]);
+        }
+    }
+
+    function register(Request $request){
+        if($request->isMethod('GET')){
+            $geslachtInfo = DB::table('geslacht')->select()->get();
+            
+            return view('user.register', [
+                'geslachten' => $geslachtInfo
+            ]);
+        } else if($request->isMethod('POST')){
+
         }
     }
 
