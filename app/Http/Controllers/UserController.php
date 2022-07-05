@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -82,14 +84,63 @@ class UserController extends Controller
     }
 
     function register(Request $request){
+        $userId = $request->session()->get('userId');
+        $geslachtInfo = DB::table('geslacht')->select()->get();
+        $userLoginInfo = DB::table('medewerker')->select('userEmail')->where('userId', '=', $userId)->get();
+        $userLoginArray = json_decode(json_encode($userLoginInfo->toArray()), true);
+
         if($request->isMethod('GET')){
-            $geslachtInfo = DB::table('geslacht')->select()->get();
-            
             return view('user.register', [
-                'geslachten' => $geslachtInfo
+                'geslachten' => $geslachtInfo,
+                'userLoginInfo' => $userLoginArray[0],
+                'filledInfo'=> null,
+                'registerStatus' => null
             ]);
         } else if($request->isMethod('POST')){
+            $userInput = $request->all();
 
+            $userEmail = $userInput['email'];
+            $userPassword = $userInput['password'];
+            $confirmationPassword = $userInput['confirm-password'];
+            if($userPassword == $confirmationPassword){
+                $hashedPassword = Hash::make($userPassword);
+
+                DB::table('medewerker')
+                ->where('userId', '=', $userId)
+                ->update([
+                    'userPassword'=>$hashedPassword,
+                    'userFirstLogin'=>1
+                ]);
+
+                $voornaam = $userInput['voornaam'];
+                $achternaam = $userInput['achternaam'];
+                $geboortedatum = $userInput['geboorte-datum'];
+                $geslacht = $userInput['geslacht'];
+                $specialiteit = $userInput['specialiteit'];
+
+                $pfp_name = "user-".$userId."-".Carbon::now()->format('Y-m-d-H-i-s-A').".png";
+                $user_pfp = $request->file('profiel-foto');
+                $user_pfp->move(public_path('userImages'), $pfp_name);
+
+                DB::table('medewerker_info')->where('userId', '=', $userId)
+                ->update([
+                    'userNaam'=>$achternaam,
+                    'userVoornaam'=>$voornaam,
+                    'userGeboortedatum'=>$geboortedatum,
+                    'userGeslacht'=>$geslacht,
+                    'userProfielFoto'=>$pfp_name,
+                    'userSpecialty'=>$specialiteit
+                ]);
+
+                return redirect('/dashboard');
+            } else {
+                return view('user.register', [
+                    'geslachten' => $geslachtInfo,
+                    'userLoginInfo' => $userLoginArray[0],
+                    'filledInfo' => $userInput,
+                    'registerStatus' => 'nonMatchingPasswords'
+                ]);
+            }
         }
     }
 
@@ -155,6 +206,7 @@ class UserController extends Controller
             $userInfo = DB::table('medewerker')
             ->join('useraccounttype', 'medewerker.userAccountTypeId', '=', 'useraccounttype.userAccountTypeId')
             ->join('medewerker_info', 'medewerker.userId', '=', 'medewerker_info.userId')
+            ->join('geslacht', 'medewerker_info.userGeslacht', '=', 'geslacht.geslachtId')
             ->select([
                 'medewerker.userId',
                 'medewerker.userEmail',
@@ -162,7 +214,7 @@ class UserController extends Controller
                 'medewerker_info.userNaam', 
                 'useraccounttype.userAccountDescription',
                 'medewerker_info.userGeboorteDatum',
-                'medewerker_info.userGeslacht', 
+                'geslacht.geslachtNaam', 
                 'medewerker_info.userProfielfoto', 
                 'medewerker_info.userSpecialty'
             ])
@@ -177,10 +229,47 @@ class UserController extends Controller
     }
 
     function view(Request $request, $id){
-        // if($request->isMethod('GET')){
-        //     DB::table()
-        //     return view('user.view');
-        // }
+        if($request->isMethod('GET')){
+            $userType = $request->session()->get('userType');
+            if ($userType == 'admin'){
+                $userInfo = DB::table('medewerker')
+                ->join('useraccounttype', 'medewerker.userAccountTypeId', '=', 'useraccounttype.userAccountTypeId')
+                ->join('medewerker_info', 'medewerker.userId', '=', 'medewerker_info.userId')
+                ->join('geslacht', 'medewerker_info.userGeslacht', '=', 'geslacht.geslachtId')
+                ->select([
+                    'medewerker.userId',
+                    'medewerker.userEmail',
+                    'medewerker_info.userVoornaam',
+                    'medewerker_info.userNaam', 
+                    'useraccounttype.userAccountDescription',
+                    'medewerker_info.userGeboorteDatum',
+                    'geslacht.geslachtNaam', 
+                    'medewerker_info.userProfielfoto', 
+                    'medewerker_info.userSpecialty'
+                ])
+                ->where('medewerker.userId', '=', $id)
+                ->get();
+
+                $userInfoArray = json_decode(json_encode($userInfo->toArray()[0]), true);
+
+                if(sizeof($userInfoArray) == 0){
+                    return view('user.view', [
+                        'userInfo' => null,
+                        'exists' => false,
+                        'userType' => $userType
+                    ]);
+                } else {
+                    return view('user.view', [
+                        'userInfo' => $userInfoArray,
+                        'exists' => true,
+                        'userType' => $userType
+                    ]);
+                }
+
+            } else {
+                return redirect('/forbidden');
+            }
+        }
     }
 
     function logout(Request $request){

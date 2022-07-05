@@ -50,6 +50,14 @@ input {
     gap: 1em;
 }
 
+.gap-xl {
+    gap: 2.5em;
+}
+
+.gap-xxl {
+    gap: 4em;
+}   
+
 .active {
     background-color: #F26B6B;
     border-radius: 0 1em 1em 0;
@@ -178,4 +186,12 @@ input {
 .user-registration-form {
     width: 30%;
     padding-left: 1em;
+}
+
+.overzicht-container {
+    display: grid;
+}
+
+.overzicht-header{
+    justify-content: space-around;
 }

@@ -59,6 +59,7 @@ Route::controller(UserController::class)->group(function(){
     Route::get('/logout', 'logout');
 
     Route::get('/user/view/{id}', 'view');
+
     Route::get('/user/profile', 'profile');
 
     Route::get('/users', 'overzicht');
@@ -70,4 +71,8 @@ Route::controller(UserController::class)->group(function(){
 
     Route::get('/user/add','add');
     Route::post('/user/add', 'add');
+});
+
+Route::get('/forbidden', function () {
+    return view('errors.forbidden');
 });

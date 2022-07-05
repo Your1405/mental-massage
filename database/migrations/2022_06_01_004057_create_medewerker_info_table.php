@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('userVoornaam', 32)->nullable(true);
             $table->date('userGeboortedatum')->nullable(true);
             $table->string('userGeslacht', 32)->nullable(true);
-            $table->string('userProfielfoto', 32)->default('user.png');
+            $table->string('userProfielfoto', 64)->default('user.png');
             $table->string('userSpecialty', 32)->nullable(true);
 
             $table->foreign('userId')->references('userId')->on('medewerker');
