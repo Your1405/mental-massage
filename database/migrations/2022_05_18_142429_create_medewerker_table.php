@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('userEmail', 32);
             $table->string('userPassword', 64);
             $table->boolean('userFirstLogin')->default(0);
+            $table->boolean('userStatus')->default(0);
 
             $table->foreign('userAccountTypeId')->references('userAccountTypeId')->on('useraccounttype');
         });

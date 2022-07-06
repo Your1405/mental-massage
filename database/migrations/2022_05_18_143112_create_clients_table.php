@@ -31,11 +31,10 @@ return new class extends Migration
             $table->string('clientOpleiding', 32);
             $table->string('clientBeroep', 32);
             $table->string('clientWerkgever', 32);
-            $table->bigInteger('clientContactPersoonId');
+            $table->boolean('clientContactPersoonId')->default(0);
             $table->string('clientMedicatie', 32);
             $table->string('clientOnderliggendeZiekten', 32);
-            $table->string('clientBehandelingStatus', 32);
-
+            $table->boolean('clientBehandelingStatus')->default(1);
             $table->foreign('soortZorg')->references('soortZorgId')->on('soortzorg');
             $table->foreign('clientBurgelijkeStaat')->references('burgerlijkestaatId')->on('burgerlijkestaat');
             $table->foreign('clientEthniciteit')->references('ethniciteitId')->on('ethniciteiten');

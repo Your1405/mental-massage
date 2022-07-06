@@ -21,7 +21,7 @@
             <table style='border: solid 1px black; border-collapse: collapse; padding: 0.5em; text-align: center'>
                 <tr style="border: solid 1px black; padding: 0.5em;">
                     {{-- <th>client ID</th> --}}
-                    <th>client voornaam</th>
+                    <th>client naam</th>
                     <th>soortzorg</th>
                     {{-- <th>client gezin status</th> --}}
                     <th>client geboorte datum</th>
@@ -40,6 +40,7 @@
                     <th>client medicatie</th>
                     <th>client onderliggende ziekten</th> --}}
                     <th>client behandeling status</th>
+                    {{-- <th>client status</th> --}}
                 </tr>
                 @foreach($clientInfo as $client)
                 <tr>
@@ -53,6 +54,7 @@
                     <td>{{ $client['clientEmail'] }}</td>
                     <td>{{ $client['clientGeslacht'] }}</td>
                     <td>{{ $client['clientBehandelingStatus'] }}</td>
+                    {{-- <td>{{ $client['clientStatus'] }}</td> --}}
                 </tr>
                 @endforeach
             </table>
