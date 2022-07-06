@@ -89,12 +89,15 @@ class UserController extends Controller
         $userLoginInfo = DB::table('medewerker')->select('userEmail')->where('userId', '=', $userId)->get();
         $userLoginArray = json_decode(json_encode($userLoginInfo->toArray()), true);
 
+        $userType = $request->session()->get('userType');
+
         if($request->isMethod('GET')){
             return view('user.register', [
                 'geslachten' => $geslachtInfo,
                 'userLoginInfo' => $userLoginArray[0],
                 'filledInfo'=> null,
-                'registerStatus' => null
+                'registerStatus' => null,
+                'userType' => $userType
             ]);
         } else if($request->isMethod('POST')){
             $userInput = $request->all();
@@ -120,7 +123,7 @@ class UserController extends Controller
 
                 $pfp_name = "user-".$userId."-".Carbon::now()->format('Y-m-d-H-i-s-A').".png";
                 $user_pfp = $request->file('profiel-foto');
-                $user_pfp->move(public_path('userImages'), $pfp_name);
+                $user_pfp->move(public_path('storage/userImages'), $pfp_name);
 
                 DB::table('medewerker_info')->where('userId', '=', $userId)
                 ->update([
@@ -138,7 +141,8 @@ class UserController extends Controller
                     'geslachten' => $geslachtInfo,
                     'userLoginInfo' => $userLoginArray[0],
                     'filledInfo' => $userInput,
-                    'registerStatus' => 'nonMatchingPasswords'
+                    'registerStatus' => 'nonMatchingPasswords',
+                    'userType' => $userType
                 ]);
             }
         }
@@ -193,8 +197,39 @@ class UserController extends Controller
         }
     }
 
-    function useredit(){
-        return view('user.edit');
+    function edit(Request $request, $id){
+        $userType = $request->session()->get('userType');
+        $userId = $request->session()->get('userId');
+        if($userType == "admin" || $userId == $id){
+            if($request->isMethod('GET')){
+                $userInfo = DB::table('medewerker')
+                ->join('useraccounttype', 'medewerker.userAccountTypeId', '=', 'useraccounttype.userAccountTypeId')
+                ->join('medewerker_info', 'medewerker.userId', '=', 'medewerker_info.userId')
+                ->join('geslacht', 'medewerker_info.userGeslacht', '=', 'geslacht.geslachtId')
+                ->select([
+                    'medewerker.userId',
+                    'medewerker.userEmail',
+                    'medewerker_info.userVoornaam',
+                    'medewerker_info.userNaam', 
+                    'useraccounttype.userAccountDescription',
+                    'medewerker_info.userGeboorteDatum',
+                    'geslacht.geslachtNaam', 
+                    'medewerker_info.userProfielfoto', 
+                    'medewerker_info.userSpecialty'
+                ])
+                ->where('medewerker.userId', '=', $id)
+                ->get()->first();
+    
+                return view('user.edit', [
+                    'userInfo' => $userInfo,
+                    'userType' => $userType
+                ]);
+            } else if($request->isMethod('PUT')){
+                
+            }
+        } else {
+            return view('errors.forbidden');
+        }
     }
 
     function userarchive(){

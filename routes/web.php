@@ -65,7 +65,7 @@ Route::controller(UserController::class)->group(function(){
     Route::get('/users', 'overzicht');
 
     Route::get('/user/edit','edit');
-    Route::get('/user/edit/{id}', 'edit');
+    Route::get('/user/edit/{id}', 'edit')->where('id', '[0-9]+');
 
     Route::get('/user/archive','archive');
 
