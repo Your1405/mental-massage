@@ -9,7 +9,7 @@ class ClientController extends Controller
 {
     function add (Request $request){
         if($request ->isMethod('get')){
-            return view('admin.clienten.patientadd', [
+            return view('clienten.patientadd', [
                
             ]);
         }else if ($request->isMethod('post')){
@@ -32,7 +32,7 @@ class ClientController extends Controller
            $clientOpleiding = $clientInfo['clientOpleiding'];
            $clientBeroep = $clientInfo['clientBeroep'];
            $clientWerkgever = $clientInfo['clientWerkgever'];
-           $clientCPI = $clientInfo['clientContactPersoonId'];
+          // $clientCPI = $clientInfo['clientContactPersoonId'];
            $clientMed = $clientInfo['clientMedicatie'];
            $clientOZ = $clientInfo['clientOnderliggendeZiekten'];
            $clientBehandelingSatus = $clientInfo['clientBehandelingStatus'];
@@ -57,14 +57,14 @@ class ClientController extends Controller
                 'clientOpleiding' => $clientOpleiding,
                 'clientBeroep' => $clientBeroep,
                 'clientWerkgever' => $clientWerkgever,
-                'clientContactPersoonId' => $clientCPI,
+               // 'clientContactPersoonId' => $clientCPI,
                 'clientMedicatie' => $clientMed,
                 'clientOnderliggendeZiekten' => $clientOZ,
                 'clientBehandelingStatus' => $clientBehandelingSatus,
 
             ]);
             
-        return view('admin.clienten.patientview');
+        return view('clienten.patientview');
 
             // $clientId = DB::table('clients')->select('clientId')->where('clientEmail', '=', $clientEm)->get();
             // return view('admin.clienten.patientadd', [
@@ -74,7 +74,7 @@ class ClientController extends Controller
             //     'userType'=>'Specialist'
             // ]);
         } else {
-            return view('admin.clienten.patientadd', [
+            return view('clienten.patientadd', [
                 'clientId'=>null,
                 'insertStatus'=>'userExists',
                 'email'=>$clientEm,
@@ -86,12 +86,35 @@ class ClientController extends Controller
         }
       
     }
-    function archive (){
-        return view('patientarchive');
+
+    function archive (Request $request, $id){
+        $clientInfo = DB::table('clients')
+        ->select(['clientId','clientVoornaam','clientBehandelingStatus'])
+        ->where('clientId', '=', $id)
+        ->get()->first();
+
+        if($request->isMethod('GET')){
+            return view('clienten.archiveconfirm', [
+                'clientInfo' => $clientInfo
+            ]);
+        }else if($request->isMethod('DELETE')){
+            $confirmation = $request->get('confirmation');
+            if($confirmation == 1){
+                DB::table('clients')
+                ->where('clientId', '=', $id)
+                ->update(['clientBehandelingStatus' => 2]);
+
+                return redirect('clienten');
+            } else {
+                return redirect('clienten');
+            }
+        }
     }
+
     function edit (){
         return view('patientedit');
     }
+
     function view (Request $request){
 
     if($request->isMethod('get')){
@@ -136,15 +159,15 @@ class ClientController extends Controller
             'clients.clientOnderliggendeZiekten',
             'clients.clientBehandelingStatus',
 
-        ])
+        ])->where('clientBehandelingStatus', '<>', 2)
         ->get();
             $clientInfoArray = json_decode(json_encode($clientInfo->toArray()), true);
-            return view('admin.clienten.overzicht',[
+            return view('clienten.overzicht',[
                 'clientInfo' =>$clientInfoArray,
             ]);
 
     }    
 
-        return view('admin.clienten.patientview');
+        return view('clienten.patientview');
     }
 }

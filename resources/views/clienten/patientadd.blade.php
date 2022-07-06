@@ -14,7 +14,7 @@
 			
         <div class="form-row" >
         <div class="form-group col-md-6">
-        <label for="clientVoornaam">Client Voornaam</label>
+        <label for="clientVoornaam">Client naam</label>
         <input type="text" class="form-control" name="clientVoornaam" required>
         </div>
         <div class="form-group col-md-6">
@@ -24,11 +24,13 @@
             <option value="2">meerderemaalig</option>
         </select>
        </div>
-        
-        <div class="form-row" >
-        <div class="form-group col-md-6">
-        <label for="clientGezinStatus">Client Gezin status</label>
-        <input type="text" class="form-control" name="clientGezinStatus" >
+       <label for="clientGezinStatus">Client Gezin status</label>
+       <select name="clientGezinStatus" id="clientGezinStatus" required>
+           <option value="1">Vader</option>
+           <option value="2">Moeder</option>
+           <option value="3">Kind</option>
+       </select>
+
         </div>
         <div class="form-group col-md-6">
         <label for="clientGeboorteDatum">Client Geboorte Datum</label>
@@ -79,7 +81,7 @@
         
         <div class="form-row" >
         <div class="form-group col-md-6">
-            <label for="clientGeslacht"> Gelsacht: </label>
+            <label for="clientGeslacht"> Geslacht: </label>
             <select name="clientGeslacht" id="clientGeslacht" required>
                 <option value="1">male</option>
                 <option value="2">female</option>
@@ -114,11 +116,7 @@
         <input type="text" class="form-control" name="clientWerkgever" required>
         </div>
 
-        <div class="form-row" >
-        <div class="form-group col-md-6">
-        <label for="clientContactPersoonId">client contact persoon ID</label>
-        <input type="text" class="form-control" name="clientContactPersoonId">
-        </div>
+        <div class="form" >
         <div class="form-group col-md-6">
         <label for="clientMedicatie">client medicatie</label>
         <input type="text" class="form-control" name="clientMedicatie" required>
@@ -131,8 +129,7 @@
         </div>
         <div class="form-group col-md-6">
         <label for="clientBehandelingStatus">client behandeling status</label>
-        <input type="checkbox" id="clientBehandelingStatus" name="clientBehandelingStatus" >
-        <label for="clientBehandelingStatus"> Afgekeurd</label><br>
+        <input type="checkbox" id="clientBehandelingStatus" name="clientBehandelingStatus" value="1" >
         </div>
 
                      <input type="submit" name="submit" class="btn btn-info btn-large" value="TOEVOEGEN">

@@ -35,9 +35,10 @@ Route::get('/', function (){
 Route::controller(ClientController::class)->group(function(){
     Route::get("/clienten", 'view');
     Route::get("/clienten/edit",'edit');
-    Route::get("/clienten/archive",'archive');
     Route::get("/clienten/add",'add');
     Route::post("/clienten/add",'add');
+    Route::get("/clienten/archive/{id}",'archive')->where('id', '[0-9]+');
+    Route::delete("/clienten/archive/{id}", 'archive')->where('id', '[0-9]+');
 });
 
 // This defines all the routes for the AfspraakController class
