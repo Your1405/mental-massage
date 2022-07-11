@@ -30,7 +30,7 @@
                 
                 <div>
                     <a href="/user/edit/{{ $userInfo['userId'] }}">Bewerk gebruiker</a>
-                    <a href="/user/delete/{{ $userInfo['userId'] }}">Verwijder gebruiker</a>
+                    <a href="/user/archive/{{ $userInfo['userId'] }}">Verwijder gebruiker</a>
                 </div>
             </section>
             <section>

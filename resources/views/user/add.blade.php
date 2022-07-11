@@ -8,19 +8,11 @@
     <title>Mental Massage | Gebruiker Toevoegen</title>
 </head>
 <body>
-    <header class="header-container dashboard-header">
-        <div class="logo-container flex-row">
-            <a href="/" class="logo-link"><img src="{{ asset('storage/images/logo-color.png') }}" alt="mental massage logo" width="72" height="72" class="logo"></a>
-            <h1>Mental Massage</h1>
-            <a href="/logout" class="logout-container flex-row">
-                <img src="{{ asset('storage/images/icons/logout.svg') }}" width="24" height="24">
-                Logout
-            </a>
-        </div>
-    </header>
+    @include('dashboard-header')
     <div class="dashboard-container">
         @include('dashboard-navigation')
         <main class="dashboard-content-container">
+            <a href="/users"><i class="fa-solid fa-arrow-left"></i></a>
             <h1>Gebruiker toevoegen</h1>
             <!-- This is Login Gegevens --> 
             <form class="flex-column user-registration-form gap-medium" action="/user/add" method="POST">

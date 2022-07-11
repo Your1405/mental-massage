@@ -28,8 +28,10 @@
                     <input type="password" name="password" id="password" required>
                     <label for="confirm-password">Opnieuw uw wachtwoord</label>
                     <input type="password" name="confirm-password" id="confirm-password" required>
+
                     <button type="button" name="page-1-next">Volgende</button>
                 </section>
+
                 <section class="hidden flex-column form-container" data-form-step="2">
                     <h2>Persoonlijke Gegevens</h2>
                     <label for="voornaam">Voornaam</label>
@@ -49,10 +51,11 @@
                     <button type="button" name="page-2-prev">Vorige</button>
                     <button type="button" name="page-2-next">Volgende</button>
                 </section>
+                
                 <section class="hidden flex-column form-container" data-form-step="3">
                     <h2>Profiel Foto</h2>
-                    <label for="profiel-foto">Kies een profiel foto: (png format)</label>
-                    <input type="file" name="profiel-foto" id="profiel-foto" accept=".png" required>
+                    <label for="profiel-foto">Kies een profiel foto: </label>
+                    <input type="file" name="profiel-foto" id="profiel-foto" accept=".png, .jpg, .jpeg" required>
                     <button type="button" name="page-3-prev">Vorige</button>
                     <input type="submit" value="Gegevens opslaan">
                 </section>
