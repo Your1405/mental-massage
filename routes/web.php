@@ -33,20 +33,42 @@ Route::get('/', function (){
 
 // This defines all the routes for the ClientController class
 Route::controller(ClientController::class)->group(function(){
-    Route::get("/clienten", 'view');
-    Route::get("/clienten/edit",'edit');
+    Route::get("/clienten", 'overzicht');
+
+    Route::get("/client/edit/{id}",'edit')->where('id', '[0-9]+');
+    Route::put("/client/edit/{id}",'edit')->where('id', '[0-9]+');
+
     Route::get("/clienten/add",'add');
     Route::post("/clienten/add",'add');
-    Route::get("/clienten/archive/{id}",'archive')->where('id', '[0-9]+');
-    Route::delete("/clienten/archive/{id}", 'archive')->where('id', '[0-9]+');
+
+    //onderliggende ziektes
+    Route::get("/client/ziektes/add/{id}", 'add_ziektes')->where('id', '[0-9]+');
+    Route::post("/client/ziektes/add/{id}", 'add_ziektes')->where('id', '[0-9]+');
+
+    //view clienten
+    Route::get('/client/view/{id}', 'view');
+
+    Route::get("/client/archive/{id}",'archive')->where('id', '[0-9]+');
+    Route::delete("/client/archive/{id}", 'archive')->where('id', '[0-9]+');
 });
 
 // This defines all the routes for the AfspraakController class
 Route::controller(AfspraakController::class)->group(function(){
-    Route::get("/afspraak", 'view');
-    Route::get("/afspraak/edit",'edit');
-    Route::get("/afspraak/archive",'archive');
-    Route::get("/afspraak/add",'add');
+    Route::get("client/{id}/afspraken", 'view_user')->where('id', '[0-9]+');
+
+    Route::get("client/{id}/afspraken/add",'add_user')->where('id', '[0-9]+');
+    Route::post("client/{id}/afspraken/add",'add_user')->where('id', '[0-9]+');
+
+    Route::get("/afspraken/view", 'overzicht');
+
+    Route::get("/afspraken/add",'add');
+    Route::post("/afspraken/add",'add');
+
+    Route::get("client/{id}/afspraak/edit",'edit')->where('id', '[0-9]+');
+    Route::patch("client/{id}/afspraak/edit",'edit')->where('id', '[0-9]+');
+
+    Route::get("client/{id}/afspraak/cancel",'archive')->where('id', '[0-9]+');
+    Route::delete("client/{id}/afspraak/cancel",'archive')->where('id', '[0-9]+');
 });
 
 // This defines all the routes for the UserController class
@@ -67,8 +89,10 @@ Route::controller(UserController::class)->group(function(){
 
     Route::get('/user/edit','edit');
     Route::get('/user/edit/{id}', 'edit')->where('id', '[0-9]+');
+    Route::put('/user/edit/{id}', 'edit')->where('id', '[0-9]+');
 
-    Route::get('/user/archive','archive');
+    Route::get('/user/archive/{id}','archive')->where('id', '[0-9]+');
+    Route::delete('/user/archive/{id}','archive')->where('id', '[0-9]+');
 
     Route::get('/user/add','add');
     Route::post('/user/add', 'add');
