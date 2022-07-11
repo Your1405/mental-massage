@@ -150,57 +150,228 @@ class UserController extends Controller
 
     // This function adds users
     function add(Request $request){
-        if($request->isMethod('get')){
-            return view('user.add', [
-                'userId'=> null,
-                'insertStatus'=> null,
-                'email'=>null,
-                'userType'=>'admin'
-            ]);
-        } else if ($request->isMethod('POST')){
-            $userInfo = $request->all();
+        $userType = $request->session()->get('userType');
+        $userId = $request->session()->get('userId');
 
-            $email = $userInfo['userEmail'];
-            $password = $userInfo['userPassword'];
-            $acctype = $userInfo['userAccountType'];
-
-            $existingUser = DB::table('medewerker')->where('userEmail', '=', $email)->get();
-            if($existingUser->count() == 0){
-                DB::table('medewerker')->insert([
-                    'userAccountTypeId' => $acctype,
-                    'userEmail' => $email,
-                    'userPassword' => Hash::make($password)
-                ]);
-
-                $userIdArray = DB::table('medewerker')->select('userId')->where('userEmail', '=', $email)->get()->toArray();
-
-                $userId = json_decode(json_encode($userIdArray), true);
-
-                DB::table('medewerker_info')->insert([
-                    'userId'=>$userId[0]['userId']
-                ]);
-
+        if($userType == "admin"){
+            if($request->isMethod('get')){
                 return view('user.add', [
-                    'userId'=>$userId[0]['userId'],
-                    'insertStatus'=>'success',
-                    'email'=>$email,
+                    'userId'=> null,
+                    'insertStatus'=> null,
+                    'email'=>null,
                     'userType'=>'admin'
                 ]);
-            } else {
-            return view('user.add', [
-                'userId'=>null,
-                'insertStatus'=>'userExists',
-                'email'=>$email,
-                'userType'=>'admin'
-            ]);
-           }
+            } else if ($request->isMethod('POST')){
+                $userInfo = $request->all();
+
+                $email = $userInfo['userEmail'];
+                $password = $userInfo['userPassword'];
+                $acctype = $userInfo['userAccountType'];
+
+                $existingUser = DB::table('medewerker')->where('userEmail', '=', $email)->get();
+                if($existingUser->count() == 0){
+                    DB::table('medewerker')->insert([
+                        'userAccountTypeId' => $acctype,
+                        'userEmail' => $email,
+                        'userPassword' => Hash::make($password)
+                    ]);
+
+                    $userIdArray = DB::table('medewerker')->select('userId')->where('userEmail', '=', $email)->get()->toArray();
+
+                    $userId = json_decode(json_encode($userIdArray), true);
+
+                    DB::table('medewerker_info')->insert([
+                        'userId'=>$userId[0]['userId']
+                    ]);
+
+                    return view('user.add', [
+                        'userId'=>$userId[0]['userId'],
+                        'insertStatus'=>'success',
+                        'email'=>$email,
+                        'userType'=>'admin'
+                    ]);
+                } else {
+                    return view('user.add', [
+                        'userId'=>null,
+                        'insertStatus'=>'userExists',
+                        'email'=>$email,
+                        'userType'=>'admin'
+                    ]);
+                }
+            }
+        } else {
+            return redirect('/forbidden');
         }
     }
 
     function edit(Request $request, $id){
         $userType = $request->session()->get('userType');
         $userId = $request->session()->get('userId');
+
         if($userType == "admin" || $userId == $id){
+            $geslachtInfo = DB::table('geslacht')->select()->get();
+            $userInfo = DB::table('medewerker')
+                    ->join('useraccounttype', 'medewerker.userAccountTypeId', '=', 'useraccounttype.userAccountTypeId')
+                    ->join('medewerker_info', 'medewerker.userId', '=', 'medewerker_info.userId')
+                    ->select([
+                        'medewerker.userId',
+                        'medewerker.userEmail',
+                        'medewerker_info.userVoornaam',
+                        'medewerker_info.userNaam', 
+                        'useraccounttype.userAccountDescription',
+                        'medewerker_info.userGeboorteDatum',
+                        'medewerker_info.userGeslacht', 
+                        'medewerker_info.userProfielfoto', 
+                        'medewerker_info.userSpecialty'
+                    ])
+                    ->where('medewerker.userId', '=', $id)
+                    ->get()->first();
+
+            if($request->isMethod('GET')){
+                $userInfo = DB::table('medewerker')
+                    ->join('useraccounttype', 'medewerker.userAccountTypeId', '=', 'useraccounttype.userAccountTypeId')
+                    ->join('medewerker_info', 'medewerker.userId', '=', 'medewerker_info.userId')
+                    ->select([
+                        'medewerker.userId',
+                        'medewerker.userEmail',
+                        'medewerker_info.userVoornaam',
+                        'medewerker_info.userNaam', 
+                        'useraccounttype.userAccountDescription',
+                        'medewerker_info.userGeboorteDatum',
+                        'medewerker_info.userGeslacht', 
+                        'medewerker_info.userProfielfoto', 
+                        'medewerker_info.userSpecialty'
+                    ])
+                    ->where('medewerker.userId', '=', $id)
+                    ->get()->first();
+
+                return view('user.edit', [
+                    'userInfo' => $userInfo,
+                    'geslachtInfo' => $geslachtInfo,
+                    'userType' => $userType,
+                    'editStatus' => null,
+                    'inputEmail' => null
+                ]);
+            } else if($request->isMethod('PUT')){
+                $userInput = $request->all();
+                $userEmail = $userInput['email'];
+
+                if(DB::table('medewerker')->where('userEmail', '=', $userEmail)->exists()){
+                    if(!$userInfo->userEmail == $userEmail){
+                        return view('user.edit', [
+                            'userInfo' => $userInfo,
+                            'geslachtInfo' => $geslachtInfo,
+                            'userType' => $userType,
+                            'editStatus' => 'emailInUse',
+                            'inputEmail' => $userEmail
+                        ]);
+                    }
+                }
+
+                $voornaam = $userInput['voornaam'];
+                $achternaam = $userInput['achternaam'];
+                $geboortedatum = $userInput['geboorte-datum'];
+                $geslacht = $userInput['geslacht'];
+                $specialiteit = $userInput['specialiteit'];
+
+                DB::table('medewerker')->where('userId', '=', $id)
+                    ->update([
+                        'userEmail'=>$userEmail
+                    ]);
+
+                if($request->has('profiel-foto')){
+                    $user_pfp = $request->file('profiel-foto');
+
+                    Storage::delete("/storage/userImages/$userInfo->userProfielFoto");
+                
+                    $pfp_name = "user-".$id."-".Carbon::now()->format('Y-m-d-H-i-s-A')."$user_pfp->getClientOriginalExtension";
+                    $user_pfp->move(public_path('storage/userImages'), $pfp_name);
+
+                    DB::table('medewerker_info')->where('userId', '=', $id)
+                    ->update([
+                        'userNaam'=>$achternaam,
+                        'userVoornaam'=>$voornaam,
+                        'userGeboortedatum'=>$geboortedatum,
+                        'userGeslacht'=>$geslacht,
+                        'userProfielFoto'=>$pfp_name,
+                        'userSpecialty'=>$specialiteit
+                    ]);
+                } else {
+                    DB::table('medewerker_info')->where('userId', '=', $id)
+                    ->update([
+                        'userNaam'=>$achternaam,
+                        'userVoornaam'=>$voornaam,
+                        'userGeboortedatum'=>$geboortedatum,
+                        'userGeslacht'=>$geslacht,
+                        'userSpecialty'=>$specialiteit
+                    ]);
+                }
+                return view('user.edit', [
+                    'userInfo' => $userInfo,
+                    'geslachtInfo' => $geslachtInfo,
+                    'userType' => $userType,
+                    'editStatus' => 'success',
+                    'inputEmail' => $userEmail
+                ]);
+            } 
+        } else {
+            return view('errors.forbidden');
+        }
+    }
+
+    function archive(Request $request, $id){
+        $userType = $request->session()->get('userType');
+
+        $userInfo = DB::table('medewerker')
+        ->select('userEmail', 'userStatus')
+        ->where('userId', '=', $id)
+        ->get()->first();
+
+        if($userType == "admin"){
+            if($request->isMethod('GET')){
+                if($userInfo->userStatus == 0){
+                    return view('user.archiveconfirm', [
+                        'archived' => false,
+                        'email' => $userInfo->userEmail,
+                        'id' => $id
+                    ]);
+                } else if($userInfo->userStatus == 1){
+                    return view('user.archiveconfirm', [
+                        'archived' => true,
+                        'email' => $userInfo->userEmail,
+                        'id' => $id
+                    ]);
+                }
+            } else if($request->isMethod('DELETE')){
+                if($request->get('confirmation') == 1){
+                    if($userInfo->userStatus == 0){
+                        DB::table('medewerker')
+                        ->where('userId', '=', $id)
+                        ->update([
+                            'userStatus' => 1
+                        ]);
+                    } else if($userInfo->userStatus == 1){
+                        DB::table('medewerker')
+                        ->where('userId', '=', $id)
+                        ->update([
+                            'userStatus' => 0
+                        ]);
+                    }
+                    
+                    return redirect('/users');
+                } else if($request->get('confirmation') == 2){
+                    return redirect('/users');
+                }
+            }
+        }else {
+            return redirect('/forbidden');
+        }
+    }
+
+    function overzicht(Request $request){
+        $userType = $request->session()->get('userType');
+
+        if($userType == "admin"){
             if($request->isMethod('GET')){
                 $userInfo = DB::table('medewerker')
                 ->join('useraccounttype', 'medewerker.userAccountTypeId', '=', 'useraccounttype.userAccountTypeId')
@@ -217,49 +388,27 @@ class UserController extends Controller
                     'medewerker_info.userProfielfoto', 
                     'medewerker_info.userSpecialty'
                 ])
-                ->where('medewerker.userId', '=', $id)
-                ->get()->first();
-    
-                return view('user.edit', [
-                    'userInfo' => $userInfo,
-                    'userType' => $userType
+                ->where('medewerker.userStatus', '=', 0)
+                ->get();
+
+                $nietGeregistreerdeUsers = DB::table('medewerker')
+                ->join('useraccounttype', 'medewerker.userAccountTypeId', '=', 'useraccounttype.userAccountTypeId')
+                ->select(['medewerker.*', 'useraccounttype.userAccountDescription'])->where('userFirstLogin', '=', 0)
+                ->get();
+
+                $archivedUsers = DB::table('medewerker')
+                ->select()->where('userStatus', '=', 1)->get();
+
+                $userInfoArray = json_decode(json_encode($userInfo->toArray()), true);
+                return view('user.overzicht', [
+                    'userInfo'=>$userInfoArray,
+                    'nietGeregistreerdeUsers'=>$nietGeregistreerdeUsers,
+                    'archivedUsers'=>$archivedUsers,
+                    'userType'=>'admin'
                 ]);
-            } else if($request->isMethod('PUT')){
-                
             }
         } else {
-            return view('errors.forbidden');
-        }
-    }
-
-    function userarchive(){
-        return view('user.archive');
-    }
-
-    function overzicht(Request $request){
-        if($request->isMethod('get')){
-            $userInfo = DB::table('medewerker')
-            ->join('useraccounttype', 'medewerker.userAccountTypeId', '=', 'useraccounttype.userAccountTypeId')
-            ->join('medewerker_info', 'medewerker.userId', '=', 'medewerker_info.userId')
-            ->join('geslacht', 'medewerker_info.userGeslacht', '=', 'geslacht.geslachtId')
-            ->select([
-                'medewerker.userId',
-                'medewerker.userEmail',
-                'medewerker_info.userVoornaam',
-                'medewerker_info.userNaam', 
-                'useraccounttype.userAccountDescription',
-                'medewerker_info.userGeboorteDatum',
-                'geslacht.geslachtNaam', 
-                'medewerker_info.userProfielfoto', 
-                'medewerker_info.userSpecialty'
-            ])
-            ->get();
-
-            $userInfoArray = json_decode(json_encode($userInfo->toArray()), true);
-            return view('user.overzicht', [
-                'userInfo'=>$userInfoArray,
-                'userType'=>'admin'
-            ]);
+            return redirect('/forbidden');
         }
     }
 

@@ -8,40 +8,63 @@ use Illuminate\Support\Facades\DB;
 class ClientController extends Controller
 {
     function add (Request $request){
-        if($request ->isMethod('get')){
-            return view('clienten.patientadd', [
-               
-            ]);
-        }else if ($request->isMethod('post')){
-            $clientInfo = $request->all();
+        $userType = $request->session()->get('userType');
+        $userId = $request->session()->get('userId');
 
+        $soortZorg = DB::table('soortzorg')->select()->get();
+        $gezinStatus = DB::table('gezinsleden')->select()->get();
+        $burgelijkeStaat = DB::table('burgelijkestaat')->select()->get();
+        $ethniciteiten = DB::table('ethniciteiten')->select()->get();
+        $geslachten = DB::table('geslacht')->select()->get();
+        $verwijzingen = DB::table('verwijzingen')->select()->get();
+        $verzekeringsstatus = DB::table('verzekeringstatus')->select()->get();
+        $verzekeringsmaatschappijen = DB::table('verzekeringsmaatschappij')->select()->get();
+
+        if($request ->isMethod('GET')){
+            return view('clienten.add', [
+                'userType' => $userType,
+                'userId' => $userId,
+                'soortZorg' => $soortZorg,
+                'gezinStatus' => $gezinStatus,
+                'burgelijkeStaat' => $burgelijkeStaat,
+                'ethniciteiten' => $ethniciteiten,
+                'geslachten' => $geslachten,
+                'verwijzingen' => $verwijzingen,
+                'verzekeringsstatus' => $verzekeringsstatus,
+                'verzekeringsmaatschappijen' => $verzekeringsmaatschappijen
+            ]);
+        }else if ($request->isMethod('POST')){
+            $clientInfo = $request->all();
            
-           $clientVoornaam = $clientInfo['clientVoornaam'];
-           $soortZorg = $clientInfo['soortZorg'];
-           $clientGS= $clientInfo['clientGezinStatus'];
-           $clientGD = $clientInfo['clientGeboorteDatum'];
-           $clientRD = $clientInfo['clientRegistratieDatum'];
-           $clientBS = $clientInfo['clientBurgelijkeStaat'];
-           $clientTN = $clientInfo['clienttelefoonNummer'];
-           $clientHTN = $clientInfo['clientHuisTelefoonNummer'];
-           $clientEm = $clientInfo['clientEmail'];
-           $clientEt = $clientInfo['clientEthniciteit'];
-           $clientGeslacht = $clientInfo['clientGeslacht'];
-           $clientHA = $clientInfo['clientHuisarts'];
-           $clientVerwijzing = $clientInfo['clientVerwijzing'];
-           $clientOpleiding = $clientInfo['clientOpleiding'];
-           $clientBeroep = $clientInfo['clientBeroep'];
-           $clientWerkgever = $clientInfo['clientWerkgever'];
-          // $clientCPI = $clientInfo['clientContactPersoonId'];
-           $clientMed = $clientInfo['clientMedicatie'];
-           $clientOZ = $clientInfo['clientOnderliggendeZiekten'];
-           $clientBehandelingSatus = $clientInfo['clientBehandelingStatus'];
+            $clientNaam = $clientInfo['clientNaam'];
+            $clientVoornaam = $clientInfo['clientVoornaam'];
+            $soortZorg = $clientInfo['soortZorg'];
+            $clientGS= $clientInfo['clientGezinStatus'];
+            $clientGD = $clientInfo['clientGeboorteDatum'];
+            $clientRD = $clientInfo['clientRegistratieDatum'];
+            $clientBS = $clientInfo['clientBurgelijkeStaat'];
+            $clientTN = $clientInfo['clienttelefoonNummer'];
+            $clientHTN = $clientInfo['clientHuisTelefoonNummer'];
+            $clientEm = $clientInfo['clientEmail'];
+            $clientEt = $clientInfo['clientEthniciteit'];
+            $clientGeslacht = $clientInfo['clientGeslacht'];
+            $clientHA = $clientInfo['clientHuisarts'];
+            $clientVerwijzing = $clientInfo['clientVerwijzing'];
+            $clientOpleiding = $clientInfo['clientOpleiding'];
+            $clientBeroep = $clientInfo['clientBeroep'];
+            $clientWerkgever = $clientInfo['clientWerkgever'];
+            $clientContactPersoon = $clientInfo['contactpersoonnaam'];
+            $clientContactPersoonNummer = $clientInfo['contactpersoontel'];
+            $clientVerzekeringsStatus = $clientInfo['verzekeringstatus'];
+            $clientVerzekeringsMaatschappij = $clientInfo['verzekeringsmaatschappij'];
+            $clientVerzekeringsNummer = $clientInfo['verzekeringsnummer'];
+            $clientVerzekeringsType = $clientInfo['verzekeringstype'];
 
         $existingClient = DB::table('clients')->where('clientEmail', '=', $clientEm)->get();
         if($existingClient->count() == 0){
-            DB::table('clients')->insert([
-
-                'clientVoornaam' =>$clientVoornaam,
+            $clientId = DB::table('clients')->insertGetId([
+                'clientNaam' => $clientNaam,
+                'clientVoornaam' => $clientVoornaam,
                 'soortZorg' => $soortZorg,
                 'clientGezinStatus' => $clientGS,
                 'clientGeboorteDatum' => $clientGD,
@@ -57,117 +80,198 @@ class ClientController extends Controller
                 'clientOpleiding' => $clientOpleiding,
                 'clientBeroep' => $clientBeroep,
                 'clientWerkgever' => $clientWerkgever,
-               // 'clientContactPersoonId' => $clientCPI,
-                'clientMedicatie' => $clientMed,
-                'clientOnderliggendeZiekten' => $clientOZ,
-                'clientBehandelingStatus' => $clientBehandelingSatus,
+                'clientContactPersoonNaam' => $clientContactPersoon,
+                'clientContactPersoonNummer' => $clientContactPersoonNummer,
+                'clientVerzekeringsStatus' => $clientVerzekeringsStatus,
+                'clientVerzekeringsMaatschappij' => $clientVerzekeringsMaatschappij,
+                'clientVerzekeringsNummer' => $clientVerzekeringsNummer,
+                'clientVerzekeringsType' => $clientVerzekeringsType
+            ]);
 
+            DB::table('client_specialisten')->insert([
+                'clientId' => $clientId,
+                'userId' => $userId
             ]);
             
-        return view('clienten.patientview');
+            return redirect("/client/view/$clientId");
 
-            // $clientId = DB::table('clients')->select('clientId')->where('clientEmail', '=', $clientEm)->get();
-            // return view('admin.clienten.patientadd', [
-            //     'clientId'=>$clientId,
-            //     'insertStatus'=>'success',
-            //     'email'=>$clientEm,
-            //     'userType'=>'Specialist'
-            // ]);
-        } else {
-            return view('clienten.patientadd', [
-                'clientId'=>null,
-                'insertStatus'=>'userExists',
-                'email'=>$clientEm,
-                'userType'=>'Specialist'
-            ]);
-        }
-
-
-        }
-      
-    }
-
-    function archive (Request $request, $id){
-        $clientInfo = DB::table('clients')
-        ->select(['clientId','clientVoornaam','clientBehandelingStatus'])
-        ->where('clientId', '=', $id)
-        ->get()->first();
-
-        if($request->isMethod('GET')){
-            return view('clienten.archiveconfirm', [
-                'clientInfo' => $clientInfo
-            ]);
-        }else if($request->isMethod('DELETE')){
-            $confirmation = $request->get('confirmation');
-            if($confirmation == 1){
-                DB::table('clients')
-                ->where('clientId', '=', $id)
-                ->update(['clientBehandelingStatus' => 2]);
-
-                return redirect('clienten');
             } else {
-                return redirect('clienten');
+                return view('clienten.add', [
+                    'clientId'=>null,
+                    'insertStatus'=>'userExists',
+                    'email'=>$clientEm,
+                    'userType' => $userType,
+                    'userId' => $userId,
+                    'soortZorg' => $soortZorg,
+                    'gezinStatus' => $gezinStatus,
+                    'burgelijkeStaat' => $burgelijkeStaat,
+                    'ethniciteiten' => $ethniciteiten,
+                    'geslachten' => $geslachten,
+                    'verwijzingen' => $verwijzingen
+                ]);
             }
         }
     }
 
-    function edit (){
+    function archive (Request $request, $id){
+        $clientInfo = DB::table('clients')
+        ->select(['clientId','clientVoornaam', 'clientNaam','clientBehandelingStatus'])
+        ->where('clientId', '=', $id)
+        ->get()->first();
+
+        if($request->isMethod('GET')){
+            if($clientInfo->clientBehandelingStatus == 0){
+                return view('clienten.archiveconfirm', [
+                    'archived' => false,
+                    'naam' => [
+                        'voornaam' => $clientInfo->clientVoornaam,
+                        'achternaam' => $clientInfo->clientNaam
+                    ],
+                    'id' => $id
+                ]);
+            } else if($clientInfo->clientBehandelingStatus == 1){
+                return view('clienten.archiveconfirm', [
+                    'archived' => true,
+                    'naam' => [
+                        'voornaam' => $clientInfo->clientVoornaam,
+                        'achternaam' => $clientInfo->clientNaam
+                    ],
+                    'id' => $id
+                ]);
+            }
+        } else if($request->isMethod('DELETE')){
+            $confirmation = $request->get('confirmation');
+            if($confirmation == 1){
+                if($clientInfo->clientBehandelingStatus == 0){
+                    DB::table('clients')
+                    ->where('clientId', '=', $id)
+                    ->update([
+                        'clientBehandelingStatus' => 1
+                    ]);
+                } else if($clientInfo->clientBehandelingStatus == 1){
+                    DB::table('clients')
+                    ->where('clientId', '=', $id)
+                    ->update([
+                        'clientBehandelingStatus' => 0
+                    ]);
+                }
+
+                return redirect('/clienten');
+            } else {
+                return redirect('/clienten');
+            }
+        }
+    }
+
+    function edit (Request $request){
         return view('patientedit');
     }
 
-    function view (Request $request){
+    function view(Request $request, $id){
+        $userId = $request->session()->get('userId');
+        $userType = $request->session()->get('userType');
 
-    if($request->isMethod('get')){
-        $clientInfo = DB::table('clients')
-        ->select([
-            'clients.clientId',
-            'clients.clientVoornaam',
-            'clients.soortZorg',
-            'clients.clientVoornaam',
-            'clients.clientGeboorteDatum',
-            'clients.clientRegistratieDatum',
-            'clients.clientBurgelijkeStaat',
-            'clients.clienttelefoonNummer',
-            'clients.clientHuisTelefoonNummer',
-            'clients.clientEmail',
-            'clients.clientEthniciteit',
-            'clients.clientGeslacht',
-            'clients.clientHuisarts',
-            'clients.clientVerwijzing',
-            'clients.clientOpleiding',
-            'clients.clientBeroep',
-            'clients.clientWerkgever',
-            'clients.clientContactPersoonId',
-            'clients.clientMedicatie',
-            'clients.clientOnderliggendeZiekten',
-            'clients.clientBehandelingStatus',
-            'clients.clientGeboorteDatum',
-            'clients.clientRegistratieDatum',
-            'clients.clientBurgelijkeStaat',
-            'clients.clienttelefoonNummer',
-            'clients.clientHuisTelefoonNummer',
-            'clients.clientEmail',
-            'clients.clientEthniciteit',
-            'clients.clientGeslacht',
-            'clients.clientHuisarts',
-            'clients.clientVerwijzing',
-            'clients.clientOpleiding',
-            'clients.clientBeroep',
-            'clients.clientWerkgever',
-            'clients.clientContactPersoonId',
-            'clients.clientMedicatie',
-            'clients.clientOnderliggendeZiekten',
-            'clients.clientBehandelingStatus',
-
-        ])->where('clientBehandelingStatus', '<>', 2)
+        $specialistClient = DB::table('client_specialisten')->select()
+        ->where('clientId', '=', $id)
+        ->where('userId', '=', $userId)
         ->get();
-            $clientInfoArray = json_decode(json_encode($clientInfo->toArray()), true);
-            return view('clienten.overzicht',[
-                'clientInfo' =>$clientInfoArray,
+        
+        if($userType == 'admin' || count($specialistClient) != 0 ){
+            $clientInfo = DB::table('clients')
+            ->join('soortzorg', 'soortzorg.zorgId', '=', 'clients.soortZorg')
+            ->join('gezinsleden', 'gezinsleden.gezinsLidId', '=', 'clients.clientGezinStatus')
+            ->join('burgelijkestaat', 'burgelijkestaat.burgelijkeStaatId', '=', 'clients.clientBurgelijkeStaat')
+            ->join('ethniciteiten', 'ethniciteiten.ethniciteitId', '=', 'clients.clientEthniciteit')
+            ->join('geslacht', 'geslacht.geslachtId', '=', 'clients.clientGeslacht')
+            ->join('verwijzingen', 'verwijzingen.verwijzingId', '=', 'clients.clientVerwijzing')
+            ->join('verzekeringstatus', 'verzekeringstatus.verzekeringStatusId', '=', 'clients.clientVerzekeringsStatus')
+            ->join('verzekeringsmaatschappij', 'verzekeringsmaatschappij.verzekeringsMaatschappijId', '=', 'clients.clientVerzekeringsMaatschappij')
+            ->select([
+                'clients.*',
+                'soortzorg.zorgBeschrijving', 
+                'gezinsleden.gezinsLidBeschrijving', 
+                'burgelijkestaat.burgelijkeStaatBeschrijving', 
+                'ethniciteiten.ethniciteitBeschrijving', 
+                'geslacht.geslachtNaam', 
+                'verwijzingen.verwijzingNaam',
+                'verzekeringstatus.verzekeringsStatus',
+                'verzekeringsmaatschappij.verzekeringsMaatschappijNaam'
+                ])
+            ->where('clientId', '=', $id)
+            ->get()->first();
+
+            // SELECT clients.*, soortzorg.zorgBeschrijving, gezinsleden.gezinsLidBeschrijving, burgelijkestaat.burgelijkeStaatBeschrijving, ethniciteiten.ethniciteitBeschrijving, geslacht.geslachtNaam, verwijzingen.verwijzingNaam FROM `clients`
+            //     JOIN soortZorg ON soortzorg.zorgId = clients.soortZorg
+            //     JOIN gezinsleden ON gezinsleden.gezinsLidId = clients.clientGezinStatus 
+            //     JOIN burgelijkestaat ON burgelijkestaat.burgelijkeStaatId = clients.clientBurgelijkeStaat
+            //     JOIN ethniciteiten ON ethniciteiten.ethniciteitId = clients.clientEthniciteit
+            //     JOIN geslacht ON geslacht.geslachtId = clients.clientGeslacht
+            //     JOIN verwijzingen ON verwijzingen.verwijzingId = clients.clientVerwijzing
+
+            return view('clienten.view', [
+                'userType' => $userType,
+                'clientInfo' => $clientInfo
             ]);
+        }
 
-    }    
+        return redirect('/forbidden');
+    }
 
-        return view('clienten.patientview');
+    function overzicht(Request $request){
+        $userType = $request->session()->get('userType');
+        $userId = $request->session()->get('userId');
+
+        if($request->isMethod('GET')){
+            $clientInfo = '';
+            if($userType == 'admin'){
+                $clientInfo = DB::table('client_specialisten')
+                ->join('clients', 'clients.clientId', '=', 'client_specialisten.clientId')
+                ->join('soortzorg', 'clients.soortZorg', '=', 'soortzorg.zorgId')
+                ->join('geslacht', 'clients.clientGeslacht', '=', 'geslacht.geslachtId')
+                ->select([
+                    'clients.clientId',
+                    'clients.clientVoornaam',
+                    'clients.clientNaam',
+                    'soortzorg.zorgBeschrijving',
+                    'clients.clientGeboorteDatum',
+                    'clients.clientRegistratieDatum',
+                    'clients.clienttelefoonNummer',
+                    'clients.clientEmail',
+                    'geslacht.geslachtNaam'
+                ])
+                ->where('clients.clientBehandelingStatus', '<>', 2)
+                ->get();
+            } else {
+                $clientInfo = DB::table('client_specialisten')
+                ->join('clients', 'clients.clientId', '=', 'client_specialisten.clientId')
+                ->join('soortzorg', 'clients.soortZorg', '=', 'soortzorg.zorgId')
+                ->join('geslacht', 'clients.clientGeslacht', '=', 'geslacht.geslachtId')
+                ->select([
+                    'clients.clientId',
+                    'clients.clientVoornaam',
+                    'clients.clientNaam',
+                    'soortzorg.zorgBeschrijving',
+                    'clients.clientGeboorteDatum',
+                    'clients.clientRegistratieDatum',
+                    'clients.clienttelefoonNummer',
+                    'clients.clientEmail',
+                    'geslacht.geslachtNaam'
+                ])
+                ->where('clients.clientBehandelingStatus', '<>', 2)
+                ->where('client_specialisten.userId', '=', $userId)
+                ->get();
+            }
+
+            return view('clienten.overzicht',[
+                'clientInfo' => $clientInfo,
+                'userType' => $userType
+            ]);
+        }    
+    
+            return view('clienten.patientview');
+    }
+
+    function add_ziektes(){
+
     }
 }
