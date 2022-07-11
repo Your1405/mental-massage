@@ -8,10 +8,16 @@
 </head>
 <body>
 
-    <form class="flex-column user-registration-form gap-medium" action="/clienten/archive/{{$clientInfo->clientId}}" method="POST">
+    <form class="flex-column user-registration-form gap-medium" action="/client/archive/{{$id}}" method="POST">
         @csrf
         @method('DELETE')
-        <label for="confirmation">Bent u zeker dat u de gebruiker wilt archiveren</label>
+
+        @if($archived)
+            <label for="confirmation">Bent u zeker dat u de client: {{ $naam['voornaam'] }} {{ $naam['achternaam'] }} wilt de-archiveren</label>
+        @else
+            <label for="confirmation">Bent u zeker dat u de client: {{ $naam['voornaam'] }} {{ $naam['achternaam'] }} wilt archiveren</label>
+        @endif
+        
         <button name="confirmation" type="submit" value="1">Ja</button>
         <button name="confirmation" type="submit" value="2">Nee</button>
     </form>

@@ -1,3 +1,6 @@
+@php
+    use Carbon\Carbon;
+@endphp
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,57 +11,47 @@
     <title>Mental Massage | Overzicht Clienten</title>
 </head>
 <body>
-    <header class="header-container dashboard-header">
-        <div class="logo-container flex-row">
-            <a href="/" class="logo-link"><img src="{{ asset('storage/images/logo-color.png') }}" alt="mental massage logo" width="72" height="72" class="logo"></a>
-            <h1>Mental Massage</h1>
-        </div>
-    </header>
+    @include('dashboard-header')
     <div class="dashboard-container">
-        {{-- @include('dashboard-navigation') --}}
-        <div class="dashboard-content-container">
-            <h1>Overzicht clienten</h1>
-            <table style='border: solid 1px black; border-collapse: collapse; padding: 0.5em; text-align: center'>
-                <tr style="border: solid 1px black; padding: 0.5em;">
-                    {{-- <th>client ID</th> --}}
-                    <th>client naam</th>
-                    <th>soortzorg</th>
-                    {{-- <th>client gezin status</th> --}}
-                    <th>client geboorte datum</th>
-                    <th>client registratie datum</th>
-                    {{-- <th>client burgerlijkestaat</th> --}}
-                    <th>client telefoon nummer</th>
-                    <th>client email</th>
-                    {{-- <th>client enthniciteit</th> --}}
-                    <th>client geslacht</th>
-                    {{-- <th>client huisarts </th>
-                    <th>client verwijzing</th>
-                    <th>client opleiding</th>
-                    <th>client beroep</th>
-                    <th>client werkgever</th>
-                    <th>client contact persoon id </th>
-                    <th>client medicatie</th>
-                    <th>client onderliggende ziekten</th> --}}
-                    <th>client behandeling status</th>
-                    {{-- <th>client status</th> --}}
-                </tr>
+        @include('dashboard-navigation')
+        <main class="dashboard-content-container">
+            @if(count($clientInfo) > 0)
+            <section class="overzicht-container">
+                <h1>Overzicht clienten</h1>
+                <a href="/clienten/add"><i class="fa-solid fa-plus"></i> Nieuwe Client</a>
+                <div class="overzicht-header grid">
+                    <p>Naam</p>
+                    <p>Soort Zorg</p>
+                    <p>Leeftijd</p>
+                    <p>Registratie Datum</p>
+                    <p>Telefoon Nummer</p>
+                    <p>Email</p>
+                    <p>Geslacht</p>
+                </div>
                 @foreach($clientInfo as $client)
-                <tr>
- 
-                     {{-- <td>{{ $client['clientId'] }}</td> --}}
-                    <td>{{ $client['clientVoornaam'] }}</td>
-                    <td>{{ $client['soortZorg'] }}</td>
-                    <td>{{ $client['clientGeboorteDatum'] }}</td>
-                    <td>{{ $client['clientRegistratieDatum'] }}</td>
-                    <td>{{ $client['clienttelefoonNummer'] }}</td>
-                    <td>{{ $client['clientEmail'] }}</td>
-                    <td>{{ $client['clientGeslacht'] }}</td>
-                    <td>{{ $client['clientBehandelingStatus'] }}</td>
-                    {{-- <td>{{ $client['clientStatus'] }}</td> --}}
-                </tr>
+                    @php
+                        $leeftijd = Carbon::parse($client->clientGeboorteDatum)->age;
+                    @endphp
+                <div class="overzicht-item flex-row gap-xl">
+                    <a href="/client/view/{{$client->clientId}}" class="flex-row gap-xl">
+                        <p>{{ $client->clientVoornaam }} {{$client->clientNaam}}</p>
+                        <p>{{ $client->zorgBeschrijving }}</p>
+                        <p>{{ $leeftijd }}</p>
+                        <p>{{ $client->clientRegistratieDatum }}</p>
+                        <p>{{ $client->clienttelefoonNummer }}</p>
+                        <p>{{ $client->clientEmail }}</p>
+                        <p>{{ $client->geslachtNaam }}</p>
+                    </a>
+                    <a href="/client/edit/{{$client->clientId}}"><i class="fa-solid fa-pen"></i></a>
+                    <a href="/client/archive/{{$client->clientId}}"><i class="fa-solid fa-trash-can"></i></a>
+                </div>
                 @endforeach
-            </table>
-        </div>
+            </section>
+            @else
+                <h1>Er zijn nog geen clienten geregistreerd</h1>
+                <a href="/clienten/add"><i class="fa-solid fa-plus"></i> Voeg nieuwe client toe</a>
+            @endif
+        </main>
     </div>
 </body>
 </html>
