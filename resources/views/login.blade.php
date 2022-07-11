@@ -36,9 +36,9 @@
                 </span>
             </form>
             @if($loginError == 'wrongPassword')
-                <p>Password is verkeerd</p>
+                <p class="error-message">Verkeerd wachtwoord!</p>
             @elseif($loginError == 'userNotExists')
-                <p>Gebruiker bestaat niet, maak contact met de admin van de webapp voor toegang<p>
+                <p class="error-message">Gebruiker bestaat niet, maak contact met de admin van de webapp voor toegang<p>
             @endif
         </div>
     </main>

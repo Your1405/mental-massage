@@ -1,5 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
+:root {
+    --error-color: #f54343;
+    --primary-color: #F26B6B;
+    --secondary-color: #ccc;
+    --btn-color: #333;
+    --btn-text-color: #eee;
+    --btn-hover-color: #4f4f4f;
+    --dark-color: #222;
+}
+
 body {
     margin: 0;
     padding: 0;
@@ -32,6 +42,23 @@ input {
     font-family: 'Inter', Arial, Helvetica, sans-serif;
 }
 
+.btn {
+    padding: .75em 1.25em;
+    text-decoration: none;
+}
+
+.add-btn {
+    color: var(--btn-text-color);
+    border-radius: 10px;
+    background-color: var(--btn-color);
+    transition: background-color .5s ease-in-out;
+}
+
+.add-btn:hover {
+    background-color: var(--btn-hover-color);
+    transition: background-color .25s ease-in-out;
+}
+
 .flex-row {
     display: flex;
     flex-direction: row;
@@ -40,6 +67,10 @@ input {
 .flex-column {
     display: flex;
     flex-direction: column;
+}
+
+.align-center {
+    align-items: center;
 }
 
 .gap-medium {
@@ -59,7 +90,7 @@ input {
 }   
 
 .active {
-    background-color: #F26B6B;
+    background-color: var(--primary-color);
     border-radius: 0 1em 1em 0;
     padding-right: 1em; 
 }
@@ -70,6 +101,11 @@ input {
 
 .action-link:visited {
     color: #0000EE;
+}
+
+.error-message {
+    color: var(--error-color);
+    font-weight: 700;
 }
 
 .dashboard-container {
@@ -188,10 +224,52 @@ input {
     padding-left: 1em;
 }
 
-.overzicht-container {
+.overzicht-grid {
     display: grid;
+    grid-template-columns: repeat(2, 1.5fr) repeat(3, 1fr) repeat(2, .5fr);
+    border-left: 1px solid var(--dark-color);
+    border-right: 1px solid var(--dark-color);
 }
 
-.overzicht-header{
-    justify-content: space-around;
+.overzicht-item {
+    display: grid;
+    grid-template-columns: 6fr repeat(2, 0.5fr);
+    column-gap: 0;
+    padding: .5em;
+    align-items: center;
+    border-bottom: 1px solid var(--dark-color);
+    border-left: 1px solid var(--dark-color);
+    border-right: 1px solid var(--dark-color);
+    transition: background-color 250ms ease-in-out;
+}
+
+.overzicht-item:hover {
+    background-color: var(--secondary-color);
+    transition: background-color 250ms ease-in-out;
+}
+
+.overzicht-link {
+    display: grid;
+    grid-template-columns: repeat(2, 1.5fr) repeat(3, 1fr);
+    text-decoration: none;
+    color: var(--dark-color);
+}
+
+.overzicht-header {
+    border-bottom: 1px solid var(--dark-color);
+    font-weight: 700;
+    padding: .5em;
+}
+
+.overzicht-title {
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--dark-color);
+}
+
+.overzicht-totaal {
+    padding: 0.25em;
+    margin-left: 1em;
+    background-color: var(--secondary-color);
+    border-radius: 10px;
 }
