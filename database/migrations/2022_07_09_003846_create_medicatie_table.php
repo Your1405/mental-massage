@@ -13,9 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('verzekeringstatus', function (Blueprint $table) {
-            $table->id('verzekeringStatusId');
-            $table->string('verzekeringsStatus', 32);
+        Schema::create('medicatie', function (Blueprint $table) {
+            $table->id();
+            $table->timestamps();
         });
     }
 
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('verzekeringstatus');
+        Schema::dropIfExists('medicatie');
     }
 };

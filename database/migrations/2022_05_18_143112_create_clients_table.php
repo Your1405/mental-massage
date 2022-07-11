@@ -15,14 +15,15 @@ return new class extends Migration
     {
         Schema::create('clients', function (Blueprint $table) {
             $table->id('clientId');
+            $table->string('clientNaam', 32);
             $table->string('clientVoornaam', 32);
             $table->bigInteger('soortZorg');
             $table->bigInteger('clientGezinStatus');
             $table->date('clientGeboorteDatum');
             $table->date('clientRegistratieDatum');
             $table->bigInteger('clientBurgelijkeStaat');
-            $table->integer('clientTelefoonNummer');
-            $table->integer('clientHuisTelefoonNummer');
+            $table->integer('clientTelefoonNummer')->nullable();
+            $table->integer('clientHuisTelefoonNummer')->nullable();
             $table->string('clientEmail', 32);
             $table->bigInteger('clientEthniciteit');
             $table->bigInteger('clientGeslacht');
@@ -31,16 +32,21 @@ return new class extends Migration
             $table->string('clientOpleiding', 32);
             $table->string('clientBeroep', 32);
             $table->string('clientWerkgever', 32);
-            $table->boolean('clientContactPersoonId')->default(0);
-            $table->string('clientMedicatie', 32);
-            $table->string('clientOnderliggendeZiekten', 32);
-            $table->boolean('clientBehandelingStatus')->default(1);
+            $table->string('clientContactPersoonNaam', 64);
+            $table->integer('clientContactPersoonNummer');
+            $table->bigInteger('clientVerzekeringsStatus');
+            $table->bigInteger('clientVerzekeringsMaatschappij')->nullable();
+            $table->string('clientVerzekeringsNummer', 16)->nullable();
+            $table->string('clientVerzekeringsType', 32)->nullable();
+            $table->boolean('clientBehandelingStatus')->default(0);
+            
             $table->foreign('soortZorg')->references('soortZorgId')->on('soortzorg');
             $table->foreign('clientBurgelijkeStaat')->references('burgerlijkestaatId')->on('burgerlijkestaat');
             $table->foreign('clientEthniciteit')->references('ethniciteitId')->on('ethniciteiten');
             $table->foreign('clientGeslacht')->references('geslachtId')->on('geslacht');
             $table->foreign('clientVerwijzing')->references('verwijzingId')->on('verwijzingen');
-            $table->foreign('clientContactPersoonId')->references('clientContactPersoonId')->on('contactpersonen');
+            $table->foreign('clientVerzekeringsStatus')->references('verzekeringsStatusId')->on('verzekeringstatus');
+            $table->foreign('clientVerzekeringsMaatschappij')->references('verzekeringsMaatschappijId')->on('verzekeringsmaatschappij');
         });
     }
 

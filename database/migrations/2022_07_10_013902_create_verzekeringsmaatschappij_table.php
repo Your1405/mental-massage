@@ -13,11 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('contactpersonen', function (Blueprint $table) {
-            $table->id('contactPersoonId');
-            $table->string('contactPersoonVoorNaam', 32);
-            $table->string('contactPersoonAchterNaam', 32);
-            $table->string('contactPersoonTelefoonNummer', 32);
+        Schema::create('verzekeringsmaatschappij', function (Blueprint $table) {
+            $table->id('verzekeringsMaatschappijId');
+            $table->string('verzekeringsMaatschappijNaam', 32);
         });
     }
 
@@ -28,6 +26,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('contactpersonen');
+        Schema::dropIfExists('verzekeringsmaatschappij');
     }
 };
