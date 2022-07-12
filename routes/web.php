@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\SearchController;
 
 /*
 |--------------------------------------------------------------------------
@@ -59,7 +60,7 @@ Route::controller(AfspraakController::class)->group(function(){
     Route::get("client/{id}/afspraken/add",'add_user')->where('id', '[0-9]+');
     Route::post("client/{id}/afspraken/add",'add_user')->where('id', '[0-9]+');
 
-    Route::get("/afspraken/view", 'overzicht');
+    Route::get("/afspraken", 'overzicht');
 
     Route::get("/afspraken/add",'add');
     Route::post("/afspraken/add",'add');
@@ -101,3 +102,5 @@ Route::controller(UserController::class)->group(function(){
 Route::get('/forbidden', function () {
     return view('errors.forbidden');
 });
+
+Route::get('/client-search', [SearchController::class, 'client_search']);
