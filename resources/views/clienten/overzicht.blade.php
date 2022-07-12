@@ -19,33 +19,41 @@
             <section class="overzicht-container">
                 <h1>Overzicht clienten</h1>
                 <a href="/clienten/add"><i class="fa-solid fa-plus"></i> Nieuwe Client</a>
-                <div class="overzicht-header grid">
-                    <p>Naam</p>
-                    <p>Soort Zorg</p>
-                    <p>Leeftijd</p>
-                    <p>Registratie Datum</p>
-                    <p>Telefoon Nummer</p>
-                    <p>Email</p>
-                    <p>Geslacht</p>
+                    <div class="overzicht-header grid">
+                    <tr>
+                    <th>Naam</th>
+                    <th>Soort Zorg</th>
+                    <th>Leeftijd</th>
+                    <th>Registratie Datum</th>
+                    <th>Telefoon Nummer</th>
+                    <th>Email</th>
+                    <th>Geslacht</th>
+                    <th>Bewerken</th>
+                    <th>Verwijderen</th>
+                    </tr>
                 </div>
+
                 @foreach($clientInfo as $client)
-                    @php
-                        $leeftijd = Carbon::parse($client->clientGeboorteDatum)->age;
-                    @endphp
-                <div class="overzicht-item flex-row gap-xl">
-                    <a href="/client/view/{{$client->clientId}}" class="flex-row gap-xl">
-                        <p>{{ $client->clientVoornaam }} {{$client->clientNaam}}</p>
-                        <p>{{ $client->zorgBeschrijving }}</p>
-                        <p>{{ $leeftijd }}</p>
-                        <p>{{ $client->clientRegistratieDatum }}</p>
-                        <p>{{ $client->clienttelefoonNummer }}</p>
-                        <p>{{ $client->clientEmail }}</p>
-                        <p>{{ $client->geslachtNaam }}</p>
-                    </a>
-                    <a href="/client/edit/{{$client->clientId}}"><i class="fa-solid fa-pen"></i></a>
-                    <a href="/client/archive/{{$client->clientId}}"><i class="fa-solid fa-ban"></i></a>
-                </div>
-                @endforeach
+                @php
+                    $leeftijd = Carbon::parse($client->clientGeboorteDatum)->age;
+                @endphp
+            <div class="overzicht-item flex-row gap-xl">
+                <a href="/client/view/{{$client->clientId}}" class="flex-row gap-xl">
+                    <tr>
+                    <td>{{ $client->clientVoornaam }} {{$client->clientNaam}}</td>
+                    <td>{{ $client->zorgBeschrijving }}</td>
+                    <td>{{ $leeftijd }}</td>
+                    <td>{{ $client->clientRegistratieDatum }}</td>
+                    <td>{{ $client->clienttelefoonNummer }}</td>
+                    <td>{{ $client->clientEmail }}</td>
+                    <td>{{ $client->geslachtNaam }}</td>
+                    </tr>
+                </a>
+                <a href="/client/edit/{{$client->clientId}}"><i class="fa-solid fa-pen"></i></a>
+                <a href="/client/archive/{{$client->clientId}}"><i class="fa-solid fa-ban"></i></a>
+            </div>
+            @endforeach
+               
             </section>
             @else
                 <h1>Er zijn nog geen clienten geregistreerd</h1>
