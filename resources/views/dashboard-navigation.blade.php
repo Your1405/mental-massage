@@ -12,8 +12,8 @@
                 Clienten
             </a>
         </li>
-        <li class="nav-item {{ ( Request::is('afspraak')) ? 'active' : '' }}">
-            <a href="/afspraak" class="flex-row">
+        <li class="nav-item {{ ( Request::is('afspraken')) ? 'active' : '' }}">
+            <a href="/afspraken" class="flex-row">
             <i class="fa-solid fa-xl fa-calendar-day"></i>
                 Afspraken
             </a>
