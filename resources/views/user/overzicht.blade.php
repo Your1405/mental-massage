@@ -50,7 +50,7 @@
                         <p>{{ $user['userSpecialty'] }}</p>
                     </a>
                     <a href="/user/edit/{{$userId}}"><i class="fa-solid fa-pen"></i></a>
-                    <a href="/user/archive/{{$userId}}"><i class="fa-solid fa-trash-can"></i></a>
+                    <a href="/user/archive/{{$userId}}"><i class="fa-solid fa-ban"></i></a>
                 </div>
                 @endforeach
             </div>
