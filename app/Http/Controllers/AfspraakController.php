@@ -19,6 +19,7 @@ class AfspraakController extends Controller
         }
         else if ($request->isMethod('POST')){
             $afspraakInfo = $request->all();
+            $clientId = $request->$afspraakInfo['client'];
             $afspraakDatum = $afspraakInfo['afspraakDatum'];
             $afspraakBegintijd = $afspraakInfo['afspraakBegintijd'];
             $afspraakEindtijd = $afspraakInfo['afspraakEindtijd'];
@@ -26,12 +27,27 @@ class AfspraakController extends Controller
 
 
             DB::table('afspraken')->insert([
+                'clientId' => $clientId,
                 'userId' => $userId,
                 'afspraakDatum' => $afspraakDatum,
                 'afspraakBegintijd' => $afspraakBegintijd,
                 'afspraakEindtijd' => $afspraakEindtijd,
                 'afspraakOmschrijving' => $afspraakOmschrijving,
             ]);
+
+            $client_specialisten = DB::table('client_specialisten')
+                ->where('clientId', '=', $clientId)
+                ->where('userId', '=', $userId)
+            ->get();
+
+            if(count($client_specialisten) == 0){
+                DB::table('client_specialisten')->insert([
+                    'userId' => $userId,
+                    'clientId' => $clientId
+                ]);
+            }
+
+            return redirect('/afspraken');
         }
     }
 
