@@ -43,7 +43,7 @@
                         <p>{{ $client->geslachtNaam }}</p>
                     </a>
                     <a href="/client/edit/{{$client->clientId}}"><i class="fa-solid fa-pen"></i></a>
-                    <a href="/client/archive/{{$client->clientId}}"><i class="fa-solid fa-trash-can"></i></a>
+                    <a href="/client/archive/{{$client->clientId}}"><i class="fa-solid fa-ban"></i></a>
                 </div>
                 @endforeach
             </section>
