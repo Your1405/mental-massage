@@ -8,6 +8,8 @@
     --btn-text-color: #eee;
     --btn-hover-color: #4f4f4f;
     --dark-color: #222;
+    --btn-hover1-color: #dc688b;
+    --btn1-color: #68a2dc;
 }
 
 body {
@@ -58,7 +60,21 @@ input {
     background-color: var(--btn-hover-color);
     transition: background-color .25s ease-in-out;
 }
+.btn1{
+    padding: .75em 1.25em;
+    text-decoration: none;
+    text-align: center;
+    background-color: var(--btn1-color);
+    color: rgb(0, 0, 0);
+    border-radius: 10px; 
 
+}
+.btn1:hover{
+    background-color: var(--btn-hover1-color);
+    transition: background-color .25s ease-in-out;
+    color: rgb(255, 255, 255);
+    border-radius: 10px;
+}
 .flex-row {
     display: flex;
     flex-direction: row;
@@ -345,6 +361,7 @@ input {
     background-color: var(--secondary-color);
     border-radius: 10px;
 }
+<<<<<<< HEAD
 
 .back-btn {
     padding: 0.5em;

@@ -33,6 +33,7 @@
                     <p>Email</p>
                     <p>Geslacht</p>
                 </div>
+
                 @foreach($clientInfo as $client)
                     @php
                         $leeftijd = Carbon::parse($client->clientGeboorteDatum)->age;
