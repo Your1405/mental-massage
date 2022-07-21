@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Collection;
 
 class AfspraakController extends Controller
 {
@@ -19,7 +20,7 @@ class AfspraakController extends Controller
         }
         else if ($request->isMethod('POST')){
             $afspraakInfo = $request->all();
-            $clientId = $request->$afspraakInfo['client'];
+            $clientId = $afspraakInfo['clientSelect'];
             $afspraakDatum = $afspraakInfo['afspraakDatum'];
             $afspraakBegintijd = $afspraakInfo['afspraakBegintijd'];
             $afspraakEindtijd = $afspraakInfo['afspraakEindtijd'];
@@ -71,7 +72,30 @@ class AfspraakController extends Controller
 
     }
 
-    function overzicht(){
+    function overzicht(Request $request){
+        $userType = $request->session()->get('userType');
+        $userId = $request->session()->get('userId');
+        
+        $afspraakInfo = collect();
 
+        if($userType == 'admin'){
+            $afspraakInfo = DB::table('afspraken')
+            ->join('clients', 'clients.clientId', '=', 'afspraken.clientId')
+            ->select('clients.*', 'afspraken.*')
+            ->where('afspraakStatus', '=', 0)
+            ->get();
+        } else {
+            $afspraakInfo = DB::table('afspraken')
+            ->join('clients', 'clients.clientId', '=', 'afspraken.clientId')
+            ->select('clients.*', 'afspraken.*')
+            ->where('afspraakStatus', '=', 0)
+            ->where('userId', '=', $userId)
+            ->get();
+        }
+
+        return view('afspraak.overzicht', [
+            'afspraakInfo' => $afspraakInfo,
+            'userType' => $userType
+        ]);
     }
 }

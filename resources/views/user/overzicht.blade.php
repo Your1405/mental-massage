@@ -22,7 +22,7 @@
                         <h2>Geregistreerde Gebruikers</h2>
                         <p class="overzicht-totaal">Totaal: {{ sizeOf($userInfo) }}</p>
                     </div>
-                    <a href="user/add" class="btn add-btn"><i class="fa-solid fa-plus"></i> Gebruiker Toevoegen</a>
+                <a href="user/add" class="btn add-btn"><i class="fa-solid fa-plus"></i> Gebruiker Toevoegen</a>
                 </div>
                 <div class="overzicht-header overzicht-grid">
                     <p>Naam</p>
@@ -56,19 +56,23 @@
             </div>
             @if(count($nietGeregistreerdeUsers) > 0)
             <div class="overzicht-container">
-                <h2>Nog niet ingelogde gebruikers: </h2>
-                <p>Totaal: {{ count($nietGeregistreerdeUsers) }}</p>
-                <div class="overzicht-header grid">
+                <div class="overzicht-title">
+                    <h2>Nog niet ingelogde gebruikers: </h2>
+                    <p>Totaal: {{ count($nietGeregistreerdeUsers) }}</p>
+                </div>
+                <div class="overzicht-header overzicht-grid">
                     <p>Email Address</p>
                     <p>Type Account</p>
                 </div>
                 @foreach($nietGeregistreerdeUsers as $user)
-                <div class="overzicht-item flex-row gap-xl">
+                <div class="overzicht-item">
                     @php
                         $userId = $user->userId;
                     @endphp
-                    <p>{{ $user->userEmail }}</p>
-                    <p>{{ $user->userAccountDescription}}</p>
+                    <div class="flex-row gap-xl">
+                        <p>{{ $user->userEmail }}</p>
+                        <p>{{ $user->userAccountDescription}}</p>
+                    </div>
                     <a href="/user/edit/{{$userId}}"><i class="fa-solid fa-pen"></i></a>
                     <a href="/user/archive/{{$userId}}"><i class="fa-solid fa-trash-can"></i></a>
                 </div>

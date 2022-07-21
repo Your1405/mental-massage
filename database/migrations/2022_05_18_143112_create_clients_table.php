@@ -30,8 +30,8 @@ return new class extends Migration
             $table->string('clientHuisarts', 32);
             $table->bigInteger('clientVerwijzing');
             $table->string('clientOpleiding', 32);
-            $table->string('clientBeroep', 32);
-            $table->string('clientWerkgever', 32);
+            $table->string('clientBeroep', 64);
+            $table->string('clientWerkgever', 64);
             $table->string('clientContactPersoonNaam', 64);
             $table->integer('clientContactPersoonNummer');
             $table->bigInteger('clientVerzekeringsStatus');

@@ -171,6 +171,7 @@ input {
 
 .form-container {
     width: 24em;
+    margin-left: 1em;
 }
 
 .form {
@@ -189,6 +190,55 @@ input {
     border-radius: 10px;
 }
 
+.input-field {
+    padding: 0.5em 1em;
+    margin: 0.5em 0;
+    border-radius: 10px;
+    border: 1px solid var(--dark-color);
+}
+
+.dropdown-input {
+    padding: 0.5em 1em;
+    margin-bottom: 1em;
+}
+
+.dropdown-input option {
+    border-radius: 0;
+}
+
+.image-upload, .image-upload::file-selector-button {
+    cursor: pointer;
+    background-color: var(--btn-hover-color);
+    color: var(--btn-text-color);
+    padding: 2em;
+    margin: 1em 0;
+    border: 3px dotted var(--dark-color);
+    transition: border 250ms ease-in;
+    transition: background-color 250ms ease-in;
+}
+
+.image-upload::before {
+    content: 'Upload een profiel foto: ';
+}
+
+.image-upload::file-selector-button {
+    display: none;
+}
+
+.image-upload:hover {
+    background-color: var(--primary-color);
+    border: 3px solid var(--dark-color);
+    transition: border 250ms ease-out;
+    transition: background-color 250ms ease-out;
+}
+
+.submit-form {
+    background-color: #C4C4C4;
+    margin-bottom: 1em;
+    transition: background-color 250ms ease-in;
+    transition: color 250ms ease-out;
+}
+
 .submit-input {
     border: none;
     border-radius: 10px;
@@ -201,6 +251,13 @@ input {
     cursor: pointer;
     transition: background-color 250ms ease-in-out;
     background-color: #C4C4C4;
+}
+
+.submit-form:hover {
+    background-color: #4f4f4f;
+    color: var(--btn-text-color);
+    transition: background-color 250ms ease-in;
+    transition: color 250ms ease-out;
 }
 
 .footer-content-container {
@@ -229,6 +286,21 @@ input {
     grid-template-columns: repeat(2, 1.5fr) repeat(3, 1fr) repeat(2, .5fr);
     border-left: 1px solid var(--dark-color);
     border-right: 1px solid var(--dark-color);
+}
+
+.overzicht-clienten-grid {
+    display: grid;
+    grid-template-columns: 1.5fr repeat(6, 1fr) repeat(2, .5fr);
+    border-left: 1px solid var(--dark-color);
+    border-right: 1px solid var(--dark-color);
+}
+
+.overzicht-clienten-link {
+    display: grid;
+    grid-template-columns: 1.5fr repeat(6, 1fr);
+    text-decoration: none;
+    gap: .25em;
+    color: var(--dark-color);
 }
 
 .overzicht-item {
@@ -272,4 +344,15 @@ input {
     margin-left: 1em;
     background-color: var(--secondary-color);
     border-radius: 10px;
+}
+
+.back-btn {
+    padding: 0.5em;
+    margin-left: 0.5em;
+    border-radius: 50%;
+}
+
+.back-btn a:hover {
+    background-color: var(--btn-hover-color);
+    color: var(--btn-text-color);
 }

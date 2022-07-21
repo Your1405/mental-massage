@@ -15,14 +15,15 @@ return new class extends Migration
     public function up()
     {
         Schema::create('afspraken', function (Blueprint $table) {
+            $table->id('afspraakId');
             $table->bigInteger('clientId');
             $table->date('afspraakDatum');
             $table->bigInteger('userId');
-            $table->date('afspraakBegintijd');
-            $table->date('afspraakEindtijd');
+            $table->time('afspraakBegintijd');
+            $table->time('afspraakEindtijd');
             $table->string('afspraakOmschrijving', 50);
+            $table->integer('afspraakStatus')->default(0);
 
-            $table->primary(['clientId', 'afspraakDatum']);
             $table->foreign('clientId')->references('clientId')->on('clients');
             $table->foreign('userId')->references('userId')->on('medewerker');
         });

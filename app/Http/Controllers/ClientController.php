@@ -240,8 +240,9 @@ class ClientController extends Controller
                     'geslacht.geslachtNaam'
                 ])
                 ->where('clients.clientBehandelingStatus', '<>', 2)
+                ->orderByDesc('clientId')
                 ->get();
-            } else {
+            } else if ($userType == 'specialist') {
                 $clientInfo = DB::table('client_specialisten')
                 ->join('clients', 'clients.clientId', '=', 'client_specialisten.clientId')
                 ->join('soortzorg', 'clients.soortZorg', '=', 'soortzorg.zorgId')
